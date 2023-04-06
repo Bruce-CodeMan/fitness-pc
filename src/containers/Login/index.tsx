@@ -17,16 +17,33 @@ import {
 import { message, Tabs } from 'antd';
 import styles from './index.module.less';
 import { useMutation } from '@apollo/client';
-import { SEND_CODE_MSG } from '../../graphql/auth';
+import { SEND_CODE_MSG, LOGIN } from '../../graphql/auth';
+
+interface IValue {
+  tel: string;
+  code: string;
+}
 
 export default () => {
 
   const [run] = useMutation(SEND_CODE_MSG);
+  const [login] = useMutation(LOGIN);
+  const loginHandler = async(values: IValue) => {
+    const res = await login({
+      variables: values
+    });
+    if(res.data.login) {
+      message.success('登录成功');
+      return
+    }
+    message.error('登录失败');
+  }
 
   return (
     <ProConfigProvider hashed={false}>
       <div className={styles.container}>
         <LoginForm
+          onFinish={loginHandler}
           logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
           title="Github"
           subTitle="全球最大的代码托管平台"
@@ -40,7 +57,7 @@ export default () => {
                   size: 'large',
                   prefix: <MobileOutlined className={'prefixIcon'} />,
                 }}
-                name="mobile"
+                name="tel"
                 placeholder={'手机号'}
                 rules={[
                   {
@@ -68,8 +85,8 @@ export default () => {
                   }
                   return '获取验证码';
                 }}
-                phoneName="mobile"
-                name="captcha"
+                phoneName="tel"
+                name="code"
                 rules={[
                   {
                     required: true,
@@ -77,12 +94,17 @@ export default () => {
                   },
                 ]}
                 onGetCaptcha={async (tel: string) => {
-                  run({
+                  const res = await run({
                     variables: {
                       tel,                   
                     }
-                  })
-                  message.success('获取验证码成功！验证码为：1234');
+                  });
+                  if(res.data.sendCodeMsg){
+                    message.success('获取验证码成功');
+                  }else{
+                    message.error('获取验证码失败');
+                  }
+                  
                 }}
               />
           <div
