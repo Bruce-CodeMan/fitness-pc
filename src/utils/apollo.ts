@@ -1,3 +1,8 @@
+/*
+ * @Date: 2023-04-06 14:58:25
+ * @Author: Bruce
+ * @Description: 
+ */
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 export const client = new ApolloClient({
