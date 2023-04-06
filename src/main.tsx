@@ -9,6 +9,7 @@ import { ApolloProvider } from '@apollo/client';
 import { client } from './utils/apollo';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ROUTE_CONFIG } from './routes';
+import NotFound from './containers/404';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ApolloProvider client={client}>
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         { ROUTE_CONFIG.map((item) => 
           <Route path={item.path} key={item.key} element={<item.element/>}/>
           )}
+          <Route path="*" element={ <NotFound/>}/>
       </Routes>
     </BrowserRouter>
   </ApolloProvider>
