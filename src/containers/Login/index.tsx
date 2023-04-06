@@ -1,3 +1,8 @@
+/*
+ * @Date: 2023-04-06 14:27:08
+ * @Author: Bruce
+ * @Description: 
+ */
 import {
   LockOutlined,
   MobileOutlined,
@@ -11,9 +16,13 @@ import {
 } from '@ant-design/pro-components';
 import { message, Tabs } from 'antd';
 import styles from './index.module.less';
-
+import { useMutation } from '@apollo/client';
+import { SEND_CODE_MSG } from '../../graphql/auth';
 
 export default () => {
+
+  const [run] = useMutation(SEND_CODE_MSG);
+
   return (
     <ProConfigProvider hashed={false}>
       <div className={styles.container}>
@@ -59,6 +68,7 @@ export default () => {
                   }
                   return '获取验证码';
                 }}
+                phoneName="mobile"
                 name="captcha"
                 rules={[
                   {
@@ -66,7 +76,12 @@ export default () => {
                     message: '请输入验证码！',
                   },
                 ]}
-                onGetCaptcha={async () => {
+                onGetCaptcha={async (tel: string) => {
+                  console.log('tel:', tel);
+                  run({
+                    variables: {
+                      tel,                    }
+                  })
                   message.success('获取验证码成功！验证码为：1234');
                 }}
               />
