@@ -77,13 +77,11 @@ export default () => {
                   },
                 ]}
                 onGetCaptcha={async (tel: string) => {
-                  console.log('tel:', tel);
                   run({
                     variables: {
                       tel,                   
                     }
                   })
-                  console.log('success');
                   message.success('获取验证码成功！验证码为：1234');
                 }}
               />
