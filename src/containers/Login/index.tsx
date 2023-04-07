@@ -99,7 +99,7 @@ export default () => {
                       tel,                   
                     }
                   });
-                  if(res.data.sendCodeMsg){
+                  if(res.data.sendCodeMsg.code === 200){
                     message.success('获取验证码成功');
                   }else{
                     message.error('获取验证码失败');
