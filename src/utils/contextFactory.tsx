@@ -4,6 +4,7 @@
  * @Description: 
  */
 import React, { createContext, useContext, useMemo, useState } from "react";
+import { IPropChild } from "./types";
 
 interface IStore {
     key: string;
@@ -11,15 +12,12 @@ interface IStore {
     setStore: (payload: Record<string, any>) => void;
 }
 
-interface IProp {
-    children: React.ReactNode;
-}
 
 const getCtxProvider = (
     key: string, 
     defaultValue: Record<string, any>,
     AppContext: React.Context<IStore>
-) => ({ children }: IProp) => {
+) => ({ children }: IPropChild) => {
 
     const [store, setStore] = useState(defaultValue);
 
@@ -40,7 +38,7 @@ class Ctx {
 
     defaultStore: IStore;
     AppContext: React.Context<IStore>;
-    Provider: ({ children }: IProp) => JSX.Element;
+    Provider: ({ children }: IPropChild) => JSX.Element;
 
     constructor(key: string, defaultValue: Record<string, any>){
         this.defaultStore = {

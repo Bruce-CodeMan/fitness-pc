@@ -14,15 +14,16 @@ import NotFound from './containers/404';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ApolloProvider client={client}>
-    <UserInfo />
-    <BrowserRouter>
-      <Routes>
-        { ROUTE_CONFIG.map((item) => 
-          <Route path={item.path} key={item.key} element={<item.element/>}/>
-          )}
-          <Route path="*" element={ <NotFound/>}/>
-      </Routes>
-    </BrowserRouter>
+    <UserInfo>
+      <BrowserRouter>
+        <Routes>
+          { ROUTE_CONFIG.map((item) => 
+            <Route path={item.path} key={item.key} element={<item.element/>}/>
+            )}
+            <Route path="*" element={ <NotFound/>}/>
+        </Routes>
+      </BrowserRouter>
+      </UserInfo>
   </ApolloProvider>
     
 )
