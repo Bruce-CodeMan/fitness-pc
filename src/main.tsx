@@ -9,10 +9,12 @@ import { ApolloProvider } from '@apollo/client';
 import { client } from './utils/apollo';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ROUTE_CONFIG } from './routes';
+import UserInfo from './components/UserInfo';
 import NotFound from './containers/404';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ApolloProvider client={client}>
+    {/* <UserInfo /> */}
     <BrowserRouter>
       <Routes>
         { ROUTE_CONFIG.map((item) => 
