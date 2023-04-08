@@ -79,9 +79,9 @@ export const connectFactory = (
         CurCtx = new Ctx(key, defaultValue);
     }
 
-    return (Child: React.FunctionComponent<any>) => (props: any) => {
+    return (Child: React.FunctionComponent<any>) => (props: any) => (
         <CurCtx.Provider>
             <Child {...props} />
         </CurCtx.Provider>
-    }
-}
+    );
+};

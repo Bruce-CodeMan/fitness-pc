@@ -1,13 +1,12 @@
-import style from './index.module.less';
-import { connect, useUserContext } from '../../utils/userHooks';
+import { connect, useGetUser } from '../../utils/userHooks';
 
 /**
 *
 */
 const UserInfo = ({}) => {
-    const {store, setStore} = useUserContext();
+    useGetUser();
     
-    return (<div className={style.container}>sss</div>);
+    return null;
 };
 
 export default connect(UserInfo);

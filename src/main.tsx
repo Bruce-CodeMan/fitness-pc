@@ -14,7 +14,7 @@ import NotFound from './containers/404';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ApolloProvider client={client}>
-    {/* <UserInfo /> */}
+    <UserInfo />
     <BrowserRouter>
       <Routes>
         { ROUTE_CONFIG.map((item) => 
