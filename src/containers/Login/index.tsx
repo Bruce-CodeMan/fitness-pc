@@ -55,8 +55,8 @@ export default () => {
         <LoginForm
           onFinish={loginHandler}
           logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
-          title="Github"
-          subTitle="全球最大的代码托管平台"
+          title="Bruce"
+          subTitle="一个不知名的代码工程师私有项目"
         >
           <Tabs>
             <Tabs.TabPane key={'phone'} tab={'手机号登录'} />
