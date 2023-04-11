@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { connectFactory, useAppContext } from "./contextFactory";
 import { GET_USER } from "../graphql/user";
 import { IUser } from "./types";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const KEY = 'userInfo'
 const DEFAULT_VALUE = {}
@@ -12,6 +13,8 @@ export const connect = connectFactory(KEY, DEFAULT_VALUE);
 
 export const useGetUser = () => {
     const {setStore} = useUserContext();
+    const location = useLocation();
+    const nav = useNavigate();
     useQuery<{ getUserInfo: IUser }>(GET_USER, {
         onCompleted: (data) => {
             if(data.getUserInfo){
@@ -21,15 +24,18 @@ export const useGetUser = () => {
                     tel,
                     name
                 });
+                if(location.pathname.startsWith('/login')) {
+                    nav('/');
+                }
                 return ;
             }
-            if(window.location.pathname !== '/login'){
-                window.location.href = `/login?orignalUrl=${window.location.pathname}`;
+            if(location.pathname !== '/login'){
+                nav(`/login?orignalUrl=${location.pathname}`);
             }       
         },
         onError: () => {
-            if(window.location.pathname !== '/login'){
-                window.location.href = `/login?orignalUrl=${window.location.pathname}`;
+            if(location.pathname !== '/login'){
+                nav(`/login?orignalUrl=${location.pathname}`);
             }   
         }
     });
