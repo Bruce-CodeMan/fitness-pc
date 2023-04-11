@@ -24,12 +24,12 @@ export const useGetUser = () => {
                 return ;
             }
             if(window.location.pathname !== '/login'){
-                window.location.href = "/login";
+                window.location.href = `/login?orignalUrl=${window.location.pathname}`;
             }       
         },
         onError: () => {
             if(window.location.pathname !== '/login'){
-                window.location.href = "/login";
+                window.location.href = `/login?orignalUrl=${window.location.pathname}`;
             }   
         }
     });

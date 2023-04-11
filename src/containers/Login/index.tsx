@@ -19,7 +19,7 @@ import styles from './index.module.less';
 import { useMutation } from '@apollo/client';
 import { SEND_CODE_MSG, LOGIN } from '../../graphql/auth';
 import { AUTH_TOKEN } from '../../utils/constant';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 interface IValue {
   tel: string;
@@ -31,6 +31,7 @@ export default () => {
 
   const [run] = useMutation(SEND_CODE_MSG);
   const [login] = useMutation(LOGIN);
+  const [params] = useSearchParams();
   const nav = useNavigate();
 
   const loginHandler = async(values: IValue) => {
@@ -40,10 +41,13 @@ export default () => {
     if(res.data.login.code===200) {
       // 自动登录
       if(values.autoLogin){
+        sessionStorage.setItem(AUTH_TOKEN, '');
         localStorage.setItem(AUTH_TOKEN, res.data.login.data);
       }
+      sessionStorage.setItem(AUTH_TOKEN, '');
+      sessionStorage.setItem(AUTH_TOKEN, res.data.login.data);
       message.success(res.data.login.message);
-      nav('/');
+      nav(params.get('orignalUrl') || '/');
       return
     }
     message.error(res.data.login.message);
