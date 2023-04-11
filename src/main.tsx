@@ -11,7 +11,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ROUTE_CONFIG } from './routes';
 import UserInfo from './components/UserInfo';
 import Layout from './components/Layout';
-import NotFound from './containers/404';
+import Login from './containers/Login';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ApolloProvider client={client}>
@@ -19,12 +19,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <UserInfo>
       
         <Routes>
+          <Route path='/login' element={<Login />}></Route>
           <Route path='/' element={<Layout />}>
             { ROUTE_CONFIG.map((item) => 
             <Route path={item.path} key={item.key} element={<item.element/>}/>
             )}
           </Route>
-          <Route path="*" element={ <NotFound/>}/>
         </Routes>
         </UserInfo>
       </BrowserRouter>
