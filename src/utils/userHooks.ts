@@ -15,7 +15,7 @@ export const useGetUser = () => {
     const {setStore} = useUserContext();
     const location = useLocation();
     const nav = useNavigate();
-    useQuery<{ getUserInfo: IUser }>(GET_USER, {
+    const { loading } = useQuery<{ getUserInfo: IUser }>(GET_USER, {
         onCompleted: (data) => {
             if(data.getUserInfo){
                 const { id, tel, name } = data.getUserInfo;
@@ -39,5 +39,7 @@ export const useGetUser = () => {
             }   
         }
     });
+
+    return { loading };
 }
 

@@ -20,6 +20,7 @@ import { useMutation } from '@apollo/client';
 import { SEND_CODE_MSG, LOGIN } from '../../graphql/auth';
 import { AUTH_TOKEN } from '../../utils/constant';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useTitle } from '../../hooks';
 
 interface IValue {
   tel: string;
@@ -33,6 +34,7 @@ export default () => {
   const [login] = useMutation(LOGIN);
   const [params] = useSearchParams();
   const nav = useNavigate();
+  useTitle('login')
 
   const loginHandler = async(values: IValue) => {
     const res = await login({
@@ -62,8 +64,7 @@ export default () => {
           title="Bruce"
           subTitle="一个不知名的代码工程师私有项目"
         >
-          <Tabs>
-            <Tabs.TabPane key={'phone'} tab={'手机号登录'} />
+          <Tabs centered items={[{key: "phone", label: "手机号登录"}]}>
           </Tabs>
           
               <ProFormText
