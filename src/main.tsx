@@ -10,6 +10,7 @@ import { client } from './utils/apollo';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ROUTE_CONFIG } from './routes';
 import UserInfo from './components/UserInfo';
+import Layout from './components/Layout';
 import NotFound from './containers/404';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -18,10 +19,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <UserInfo>
       
         <Routes>
-          { ROUTE_CONFIG.map((item) => 
+          <Route path='/' element={<Layout />}>
+            { ROUTE_CONFIG.map((item) => 
             <Route path={item.path} key={item.key} element={<item.element/>}/>
             )}
-            <Route path="*" element={ <NotFound/>}/>
+          </Route>
+          <Route path="*" element={ <NotFound/>}/>
         </Routes>
         </UserInfo>
       </BrowserRouter>

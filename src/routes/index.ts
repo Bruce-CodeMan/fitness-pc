@@ -6,13 +6,14 @@ export const ROUTE_CONFIG = [
         key: "home",
         path: "/",
         element: Home,
-        title: "首页"
+        name: "首页"
     },
     {
         key: "login",
         path: "/login",
+        hideInMenu: true,
         element: Login,
-        title: '登录'
+        name: '登录'
     }
 ]
 
