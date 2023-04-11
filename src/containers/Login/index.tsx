@@ -21,6 +21,8 @@ import { SEND_CODE_MSG, LOGIN } from '../../graphql/auth';
 import { AUTH_TOKEN } from '../../utils/constant';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTitle } from '../../hooks';
+import { useContext } from 'react';
+import { useUserContext } from '../../utils/userHooks';
 
 interface IValue {
   tel: string;
@@ -34,6 +36,7 @@ export default () => {
   const [login] = useMutation(LOGIN);
   const [params] = useSearchParams();
   const nav = useNavigate();
+  const { store } = useUserContext();
   useTitle('login')
 
   const loginHandler = async(values: IValue) => {
@@ -41,6 +44,7 @@ export default () => {
       variables: values
     });
     if(res.data.login.code===200) {
+      store.refetchHandler();
       // 自动登录
       if(values.autoLogin){
         sessionStorage.setItem(AUTH_TOKEN, '');

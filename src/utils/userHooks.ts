@@ -15,7 +15,7 @@ export const useGetUser = () => {
     const {setStore} = useUserContext();
     const location = useLocation();
     const nav = useNavigate();
-    const { loading } = useQuery<{ getUserInfo: IUser }>(GET_USER, {
+    const { loading, refetch } = useQuery<{ getUserInfo: IUser }>(GET_USER, {
         onCompleted: (data) => {
             if(data.getUserInfo){
                 const { id, tel, name } = data.getUserInfo;
@@ -29,17 +29,19 @@ export const useGetUser = () => {
                 }
                 return ;
             }
-            if(location.pathname !== '/login'){
+            setStore({ refetchHandler: refetch });
+            if(location.pathname !== '/login'){              
                 nav(`/login?orignalUrl=${location.pathname}`);
             }       
         },
         onError: () => {
-            if(location.pathname !== '/login'){
+            setStore({ refetchHandler: refetch });
+            if(location.pathname !== '/login'){   
                 nav(`/login?orignalUrl=${location.pathname}`);
             }   
         }
     });
 
-    return { loading };
+    return { loading, refetch };
 }
 

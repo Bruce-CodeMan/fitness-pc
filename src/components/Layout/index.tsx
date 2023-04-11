@@ -1,8 +1,9 @@
 import { MenuDataItem, PageContainer, ProLayout } from '@ant-design/pro-components';
-import { useOutlet, Link } from 'react-router-dom';
+import { useOutlet, Link, useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../utils/userHooks';
 import logo from "../../assets/react.svg";
 import { ROUTE_CONFIG } from '../../routes';
+import { AUTH_TOKEN } from '../../utils/constant';
 
 /**
 * 外层框架
@@ -16,6 +17,13 @@ const menuItemRender = (
 const Layout = () => {
     const outlet = useOutlet();
     const { store } = useUserContext();
+    const nav = useNavigate();
+
+    const logout = () => {
+        sessionStorage.setItem(AUTH_TOKEN, '');
+        localStorage.setItem(AUTH_TOKEN, '');
+        nav('/login');
+    }
 
     return (
         <ProLayout
@@ -24,7 +32,8 @@ const Layout = () => {
             avatarProps={{
                 src: '',
                 title: store.tel,
-                size: 'small'
+                size: 'small',
+                onClick: logout,
             }}
             title={false}
             logo={<img src={ logo }/>}
@@ -33,6 +42,7 @@ const Layout = () => {
                 routes: ROUTE_CONFIG
             }}
             menuItemRender={menuItemRender}
+            onMenuHeaderClick={() => nav('/')}
         >
             <PageContainer>
                 { outlet }
