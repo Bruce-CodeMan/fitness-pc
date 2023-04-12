@@ -1,8 +1,13 @@
+/*
+ * @Date: 2023-04-12 10:56:55
+ * @Author: Bruce
+ * @Description: 
+ */
 import { MenuDataItem, PageContainer, ProLayout } from '@ant-design/pro-components';
 import { useOutlet, Link, useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../utils/userHooks';
 import logo from "../../assets/react.svg";
-import { ROUTE_CONFIG } from '../../routes';
+import { routes } from '../../routes/menus';
 import { AUTH_TOKEN } from '../../utils/constant';
 
 /**
@@ -39,7 +44,7 @@ const Layout = () => {
             logo={<img src={ logo }/>}
             route={{
                 path: '/',
-                routes: ROUTE_CONFIG
+                routes: routes
             }}
             menuItemRender={menuItemRender}
             onMenuHeaderClick={() => nav('/')}

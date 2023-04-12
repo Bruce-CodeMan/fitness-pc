@@ -1,12 +1,21 @@
+/*
+ * @Date: 2023-04-10 09:40:33
+ * @Author: Bruce
+ * @Description: 
+ */
 
 import { useUserContext } from '../../utils/userHooks';
-
+import { Button } from 'antd';
+import { useGoTo } from '../../hooks';
+import { ROUTE_KEY } from '../../routes/menus';
 /**
 *   首页
 */
-const Home = ({}) => {
+const Home = () => {
     const { store } = useUserContext();
-    return (<div>{ store.tel }</div>);
+    const { go } = useGoTo();
+    console.log(store)
+    return (<Button onClick={() => go(ROUTE_KEY.MY)}>个人中心</Button>);
 };
 
 export default Home;    

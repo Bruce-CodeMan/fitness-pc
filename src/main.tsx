@@ -8,10 +8,11 @@ import './index.css'
 import { ApolloProvider } from '@apollo/client';
 import { client } from './utils/apollo';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ROUTE_CONFIG } from './routes';
+import { routes } from './routes/menus';
 import UserInfo from './components/UserInfo';
 import Layout from './components/Layout';
 import Login from './containers/Login';
+import { ROUTE_COMPONENT } from './routes';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ApolloProvider client={client}>
@@ -21,8 +22,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Routes>
           <Route path='/login' element={<Login />}></Route>
           <Route path='/' element={<Layout />}>
-            { ROUTE_CONFIG.map((item) => 
-            <Route path={item.path} key={item.key} element={<item.element/>}/>
+            { routes.map((item) => {
+              const Component = ROUTE_COMPONENT[item.key]
+              return( <Route path={item.path} key={item.path} element={<Component/>}/>)
+            }
             )}
           </Route>
         </Routes>
@@ -32,3 +35,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   </ApolloProvider>
     
 )
+
+
