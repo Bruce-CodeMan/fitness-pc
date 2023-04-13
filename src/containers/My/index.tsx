@@ -3,17 +3,35 @@
  * @Author: Bruce
  * @Description: 
  */
-import { PageContainer, ProForm, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
+import { PageContainer, ProForm, ProFormInstance, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
 import { Row, Col, message } from "antd";
+import { useEffect, useRef } from "react";
 import OSSImageUpload from '../../components/OSSImageUpload'
+import { useUserContext } from "../../hooks/userHooks";
 
 /**
 *   首页
 */
-const My = ({}) => {
+const My = () => {
+    const formRef = useRef<ProFormInstance>();
+    const { store } = useUserContext();
+    useEffect(()=>{
+        if(!store.tel){
+            return
+        }
+        formRef.current?.setFieldsValue({
+            tel: store.tel,
+            name: store.name,
+            desc: store.desc,
+            avatar: {
+                url: store.avatar,
+            }
+        })
+    }, [store])
     return (
         <PageContainer>
             <ProForm 
+                formRef={formRef}
                 layout="horizontal"
                 submitter={{
                     resetButtonProps: {

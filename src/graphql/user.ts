@@ -1,3 +1,8 @@
+/*
+ * @Date: 2023-04-10 09:40:33
+ * @Author: Bruce
+ * @Description: 
+ */
 import { gql } from "@apollo/client";
 
 export const GET_USER = gql`
@@ -5,6 +10,9 @@ export const GET_USER = gql`
         getUserInfo {
             id
             tel
+            desc
+            name
+            avatar
         }
     }
 `;

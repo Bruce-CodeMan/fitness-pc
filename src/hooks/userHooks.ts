@@ -1,7 +1,12 @@
+/*
+ * @Date: 2023-04-12 10:56:55
+ * @Author: Bruce
+ * @Description: 
+ */
 import { useQuery } from "@apollo/client";
-import { connectFactory, useAppContext } from "./contextFactory";
+import { connectFactory, useAppContext } from "../utils/contextFactory";
 import { GET_USER } from "../graphql/user";
-import { IUser } from "./types";
+import { IUser } from "../utils/types";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const KEY = 'userInfo'
@@ -18,11 +23,14 @@ export const useGetUser = () => {
     const { loading, refetch } = useQuery<{ getUserInfo: IUser }>(GET_USER, {
         onCompleted: (data) => {
             if(data.getUserInfo){
-                const { id, tel, name } = data.getUserInfo;
+                const { id, tel, name, desc, avatar } = data.getUserInfo;
                 setStore({
                     id,
                     tel,
-                    name
+                    name,
+                    desc,
+                    avatar
+                    
                 });
                 if(location.pathname.startsWith('/login')) {
                     nav('/');

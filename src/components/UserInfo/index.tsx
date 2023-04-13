@@ -1,6 +1,11 @@
+/*
+ * @Date: 2023-04-12 10:56:55
+ * @Author: Bruce
+ * @Description: 
+ */
 import { Spin } from 'antd';
 import { IPropChild } from '../../utils/types';
-import { connect, useGetUser } from '../../utils/userHooks';
+import { connect, useGetUser } from '../../hooks/userHooks';
 
 /**
 * 获取用户信息组件

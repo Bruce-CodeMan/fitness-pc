@@ -21,8 +21,7 @@ import { SEND_CODE_MSG, LOGIN } from '../../graphql/auth';
 import { AUTH_TOKEN } from '../../utils/constant';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTitle } from '../../hooks';
-import { useContext } from 'react';
-import { useUserContext } from '../../utils/userHooks';
+import { useUserContext } from '../../hooks/userHooks';
 
 interface IValue {
   tel: string;
