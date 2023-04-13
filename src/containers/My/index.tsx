@@ -51,11 +51,12 @@ const My = () => {
                                 params: {
                                     name: value.name,
                                     desc: value.desc,
-                                    avatar: value.avatar.url,
+                                    avatar: value.avatar?.url || '',
                                 }
                             }
                         })
                         if(res.data.update.code === 200){
+                            store.refetchHandler();
                             message.success(res.data.update.message)
                         }else{
                             message.error(res.data.update.message)

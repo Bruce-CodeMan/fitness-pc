@@ -29,7 +29,8 @@ export const useGetUser = () => {
                     tel,
                     name,
                     desc,
-                    avatar
+                    avatar,
+                    refetchHandler: refetch
                     
                 });
                 if(location.pathname.startsWith('/login')) {
