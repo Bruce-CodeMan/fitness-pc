@@ -49,9 +49,8 @@ const Layout = () => {
             menuItemRender={menuItemRender}
             onMenuHeaderClick={() => nav('/')}
         >
-            <PageContainer>
+            
                 { outlet }
-            </PageContainer>
         </ProLayout>
     );
 };

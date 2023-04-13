@@ -4,7 +4,9 @@
  * @Description: 
  */
 const OSSImageUpload = () => {
-    
+    return (
+        <div>OSSImageUpload</div>
+    )
 }
 
 export default OSSImageUpload;
