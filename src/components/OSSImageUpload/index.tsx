@@ -49,7 +49,7 @@ const OSSImageUpload = ({ value, onChange }: OSSUploadProps) => {
   const getExtraData: UploadProps['data'] = (file) => {
     const suffix = file.name.slice(file.name.lastIndexOf('.'))
     const filename = Date.now() + suffix;
-    key.current = `${OSSData?.dir}/${filename}`
+    key.current = `${OSSData?.dir}${filename}`
     console.log(key)
     return {
         key: key.current,

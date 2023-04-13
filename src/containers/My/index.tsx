@@ -51,6 +51,7 @@ const My = () => {
                                 params: {
                                     name: value.name,
                                     desc: value.desc,
+                                    avatar: value.avatar.url,
                                 }
                             }
                         })
