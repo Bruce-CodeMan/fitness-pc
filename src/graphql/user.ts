@@ -16,3 +16,12 @@ export const GET_USER = gql`
         }
     }
 `;
+
+export const UPDATE_USER = gql`
+    mutation update($id: String!, $params: UserInput!){
+        update(id: $id, params: $params) {
+            code
+            message
+        }
+    }
+`;

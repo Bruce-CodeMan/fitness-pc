@@ -4,9 +4,11 @@
  * @Description: 
  */
 import { PageContainer, ProForm, ProFormInstance, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
-import { Row, Col, message } from "antd";
+import { useMutation } from "@apollo/client";
+import { Row, Col, message, Form } from "antd";
 import { useEffect, useRef } from "react";
 import OSSImageUpload from '../../components/OSSImageUpload'
+import { UPDATE_USER } from "../../graphql/user";
 import { useUserContext } from "../../hooks/userHooks";
 
 /**
@@ -15,6 +17,7 @@ import { useUserContext } from "../../hooks/userHooks";
 const My = () => {
     const formRef = useRef<ProFormInstance>();
     const { store } = useUserContext();
+    const [ updateUserInfo ] = useMutation(UPDATE_USER);
     useEffect(()=>{
         if(!store.tel){
             return
@@ -42,7 +45,20 @@ const My = () => {
                 }}
                 onFinish={
                     async (value) => {
-                        message.success('更新成功')
+                        const res = await updateUserInfo({
+                            variables: {
+                                id: store.id,
+                                params: {
+                                    name: value.name,
+                                    desc: value.desc,
+                                }
+                            }
+                        })
+                        if(res.data.update.code === 200){
+                            message.success(res.data.update.message)
+                        }else{
+                            message.error(res.data.update.message)
+                        } 
                     }
                 }
             >
@@ -53,7 +69,9 @@ const My = () => {
                         <ProFormTextArea name="desc" label="简介" placeholder="请输入简介"/>
                     </Col>
                     <Col>
-                        <OSSImageUpload />
+                        <Form.Item name="avatar">
+                            <OSSImageUpload />
+                        </Form.Item>                    
                     </Col>
                 </Row>
             </ProForm>
