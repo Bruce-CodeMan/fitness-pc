@@ -10,7 +10,7 @@ import OSSImageUpload from '../../components/OSSImageUpload'
 import { useUserContext } from "../../hooks/userHooks";
 
 /**
-*   首页
+*   个人中心
 */
 const My = () => {
     const formRef = useRef<ProFormInstance>();
