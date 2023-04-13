@@ -32,6 +32,7 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
     [ROUTE_KEY.MY]: {
         path: "my",
         name: "个人中心",
+        hideInMenu: true,
         icon: <HomeOutlined />
     }
 }
