@@ -10,6 +10,7 @@ import { Button, Upload } from 'antd';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { useQuery } from '@apollo/client';
 import { GET_OSS_INFO } from '../../graphql/oss';
+import ImgCrop from 'antd-img-crop';
 
 interface OSSDataType {
   dir: string;
@@ -49,8 +50,9 @@ const OSSImageUpload = ({ value, onChange }: OSSUploadProps) => {
     const suffix = file.name.slice(file.name.lastIndexOf('.'))
     const filename = Date.now() + suffix;
     key.current = `${OSSData?.dir}/${filename}`
+    console.log(key)
     return {
-        key,
+        key: key.current,
         OSSAccessKeyId: OSSData?.accessId,
         policy: OSSData?.policy,
         Signature: OSSData?.signature,
@@ -70,16 +72,19 @@ const OSSImageUpload = ({ value, onChange }: OSSUploadProps) => {
   };
 
   return (
+    <ImgCrop rotationSlider>
     <Upload
         name="file"
+        listType='picture-card'
         fileList={value? [value]: []}
         action={OSSData?.host}
         onChange={handleChange}
         data={getExtraData}
         beforeUpload={beforeUpload}
     >
-      <Button icon={<UploadOutlined />}>Click to Upload</Button>
+      + 替换头像
     </Upload>
+    </ImgCrop>
   );
 };
 
