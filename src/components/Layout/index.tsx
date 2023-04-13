@@ -35,8 +35,8 @@ const Layout = () => {
             layout='mix'
             siderWidth={130}
             avatarProps={{
-                src: '',
-                title: store.tel,
+                src: store.avatar || null,
+                title: store.name,
                 size: 'small',
                 onClick: logout,
             }}

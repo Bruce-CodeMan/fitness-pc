@@ -4,9 +4,8 @@
  * @Description: 
  */
 import { useRef } from 'react';
-import { UploadOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
-import { Button, Upload } from 'antd';
+import { Upload } from 'antd';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { useQuery } from '@apollo/client';
 import { GET_OSS_INFO } from '../../graphql/oss';
@@ -97,3 +96,4 @@ OSSImageUpload.defaultProps = {
 }
 
 export default OSSImageUpload;
+
