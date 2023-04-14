@@ -3,12 +3,13 @@
  * @Author: Bruce
  * @Description: 
  */
-import { MenuDataItem, PageContainer, ProLayout } from '@ant-design/pro-components';
+import { MenuDataItem, ProLayout } from '@ant-design/pro-components';
 import { useOutlet, Link, useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../hooks/userHooks';
 import logo from "../../assets/react.svg";
-import { routes } from '../../routes/menus';
+import { routes, ROUTE_KEY } from '../../routes/menus';
 import { AUTH_TOKEN } from '../../utils/constant';
+import { useGoTo } from '../../hooks';
 
 /**
 * 外层框架
@@ -23,6 +24,7 @@ const Layout = () => {
     const outlet = useOutlet();
     const { store } = useUserContext();
     const nav = useNavigate();
+    const { go } = useGoTo();
 
     const logout = () => {
         sessionStorage.setItem(AUTH_TOKEN, '');
@@ -38,7 +40,7 @@ const Layout = () => {
                 src: store.avatar || null,
                 title: store.name,
                 size: 'small',
-                onClick: logout,
+                onClick: () => go(ROUTE_KEY.MY),
             }}
             title={false}
             logo={<img src={ logo }/>}
