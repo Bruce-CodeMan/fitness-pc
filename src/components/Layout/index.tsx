@@ -10,6 +10,8 @@ import logo from "../../assets/react.svg";
 import { routes, ROUTE_KEY } from '../../routes/menus';
 import { AUTH_TOKEN } from '../../utils/constant';
 import { useGoTo } from '../../hooks';
+import { Space } from 'antd';
+import { LogoutOutlined } from '@ant-design/icons';
 
 /**
 * 外层框架
@@ -26,7 +28,7 @@ const Layout = () => {
     const nav = useNavigate();
     const { go } = useGoTo();
 
-    const logout = () => {
+    const logoutHandler = () => {
         sessionStorage.setItem(AUTH_TOKEN, '');
         localStorage.setItem(AUTH_TOKEN, '');
         nav('/login');
@@ -42,6 +44,11 @@ const Layout = () => {
                 size: 'small',
                 onClick: () => go(ROUTE_KEY.MY),
             }}
+            links={[
+                <Space size={20} onClick={logoutHandler}>
+                    <LogoutOutlined />退出
+                </Space>
+            ]}
             title={false}
             logo={<img src={ logo }/>}
             route={{
