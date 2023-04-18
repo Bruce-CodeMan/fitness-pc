@@ -3,7 +3,7 @@
  * @Author: Bruce
  * @Description: 
  */
-import { HomeOutlined } from '@ant-design/icons';
+import { HomeOutlined, ShopOutlined } from '@ant-design/icons';
 
 interface IRoute {
     name: string;
@@ -15,7 +15,8 @@ interface IRoute {
 export const ROUTE_KEY = {
     HOME: 'home',
     NOTFOUND: '404',
-    MY: 'my'
+    MY: 'my',
+    ORGANIZATION: 'organization'
 }
 
 export const ROUTE_CONFIG: Record<string, IRoute> = {
@@ -34,6 +35,11 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
         name: "个人中心",
         hideInMenu: true,
         icon: <HomeOutlined />
+    },
+    [ROUTE_KEY.ORGANIZATION]: {
+        path: "organization",
+        name: "门店管理",
+        icon: <ShopOutlined />
     }
 }
 
