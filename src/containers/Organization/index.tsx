@@ -1,5 +1,5 @@
 import { PageContainer, ProList } from "@ant-design/pro-components";
-import { Button, Tag } from "antd";
+import { Button, Popconfirm, Tag } from "antd";
 import { useOrganizations } from "../../service/organization";
 import { DEFAULT_PAGE_SIZE } from "../../utils/constant";
 import { useState } from "react";
@@ -35,9 +35,15 @@ const Organization = () => {
         key: item.id,
         subTitle: <div>{item.tags?.split('.').map((tag) => (<Tag key={tag} color="#5BD8A6">{tag}</Tag>))}</div>,
         actions: [
-            <Button type="link">编辑</Button>
-
-        ]
+            <Button type="link">编辑</Button>,
+            <Popconfirm
+                title="提醒"
+                description={`确定要删除 ${item.name} 吗?`}
+            >
+                <Button type="link">删除</Button>
+            </Popconfirm>
+        ],
+        content:item.address
     }))
 
     return (
