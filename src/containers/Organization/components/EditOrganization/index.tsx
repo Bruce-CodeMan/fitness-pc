@@ -3,7 +3,13 @@
  * @Author: Bruce
  * @Description: 
  */
-const EditOrganization = () => {
+
+interface IProp {
+    id: string;
+    onClose: () => void;
+}
+
+const EditOrganization = ({id, onClose}: IProp) => {
     return (
         <div>sss</div>
     )

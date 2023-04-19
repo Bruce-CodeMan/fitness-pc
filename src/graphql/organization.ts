@@ -12,9 +12,9 @@ query getOrganizations($page: PageInput!) {
     message
     data{
       id
-      orgRoomImg{
-        id
-      }
+      name
+      address
+      tags
     }
     page{
       pageNum
