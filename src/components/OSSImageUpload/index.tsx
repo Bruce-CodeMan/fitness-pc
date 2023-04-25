@@ -21,37 +21,38 @@ interface OSSDataType {
 }
 
 interface OSSUploadProps {
-  value?: UploadFile;
-  onChange?: (file?: UploadFile) => void;
+  label?: string;
+  maxCount?: number;
+  value?: UploadFile[];
+  imgCropAspect?: number;
+  onChange?: (files?: UploadFile[]) => void;
 }
 
-const OSSImageUpload = ({ value, onChange }: OSSUploadProps) => {
-
-  const key = useRef('');  
+const OSSImageUpload = ({ label, maxCount, value, imgCropAspect, onChange }: OSSUploadProps) => {
 
   const { data, refetch } = useQuery<{getOSSInfo: OSSDataType}>(GET_OSS_INFO);
 
   const OSSData = data?.getOSSInfo;
 
-  const handleChange: UploadProps['onChange'] = ({ file }) => {
-    if(file.status === 'removed') {
-        onChange?.();
-        return;
-    }
-    const newFile = {
-        ...file,
-        url: `${OSSData?.host}/${key.current}`
-    }
-    onChange?.(newFile);
+  const getKey = (file: UploadFile) => {
+    const suffix = file.name.slice(file.name.lastIndexOf('.'));
+    const key = `${OSSData?.dir}${file.uid}${suffix}`;
+    const url = `${OSSData?.host}/${key}`;
+
+    return { key, url }
+  }
+
+  const handleChange: UploadProps['onChange'] = ({ fileList }) => {
+    const files = fileList.map((f) =>({
+      ...f,
+      url: getKey(f).url
+    }))
+    onChange?.(files);
   };
 
   const getExtraData: UploadProps['data'] = (file) => {
-    const suffix = file.name.slice(file.name.lastIndexOf('.'))
-    const filename = Date.now() + suffix;
-    key.current = `${OSSData?.dir}${filename}`
-    console.log(key)
     return {
-        key: key.current,
+        key: getKey(file).key,
         OSSAccessKeyId: OSSData?.accessId,
         policy: OSSData?.policy,
         Signature: OSSData?.signature,
@@ -71,17 +72,18 @@ const OSSImageUpload = ({ value, onChange }: OSSUploadProps) => {
   };
 
   return (
-    <ImgCrop rotationSlider>
+    <ImgCrop rotationSlider aspect={imgCropAspect}>
     <Upload
         name="file"
         listType='picture-card'
-        fileList={value? [value]: []}
+        maxCount={maxCount}
+        fileList={value}
         action={OSSData?.host}
         onChange={handleChange}
         data={getExtraData}
         beforeUpload={beforeUpload}
     >
-      + 替换头像
+      {label}
     </Upload>
     </ImgCrop>
   );
