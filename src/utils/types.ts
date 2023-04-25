@@ -58,3 +58,4 @@ export interface IOrganization {
 }
 
 export type TOrganizationsQuery = { [key: string]: { _typename?: 'Query', data: IOrganization[], page: IPage } };
+export type TOrganizationQuery = { [key: string]: { _typename?: 'Query', data: IOrganization } };

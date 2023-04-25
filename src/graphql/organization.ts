@@ -24,3 +24,17 @@ query getOrganizations($page: PageInput!) {
   }
 }
 `;
+
+export const GET_ORGANIZATION = gql`
+query getOrganizationInfo($id: String!) {
+  getOrganizationInfo(id: $id) {
+    code
+    message
+    data{
+      id
+      logo
+      name
+    }
+  }
+}
+`;
