@@ -3,7 +3,7 @@
  * @Author: Bruce
  * @Description: 
  */
-import { Drawer, Button, Form, Row, Col, Input, Select } from "antd";
+import { Drawer, Button, Form, Row, Col, Input, Select, Spin } from "antd";
 import OSSImageUpload from "../../../../components/OSSImageUpload";
 import { useOrganization } from "../../../../service/organization";
 import { useMemo } from "react";
@@ -18,13 +18,13 @@ const EditOrganization = ({id, onClose}: IProp) => {
     const { data, loading: queryLoading } = useOrganization(id);
 
     const initValue = useMemo(() => (data? {
-        ...data,
         tags: data.tags?.split(','),
         logo: [{ url: data.logo }],
-        identityCardBackImg: [{ url: data.identityCardBackImg }],
-        identityCardFrontImg: [{ url: data.identityCardFrontImg }],
-        businessLicense: [{ url: data.businessLicense }],
     }: {}), [data])
+
+    if(queryLoading) {
+        return <Spin />
+    }
 
     return (
         <Drawer

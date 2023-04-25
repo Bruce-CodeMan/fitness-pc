@@ -45,7 +45,7 @@ const OSSImageUpload = ({ label, maxCount, value, imgCropAspect, onChange }: OSS
   const handleChange: UploadProps['onChange'] = ({ fileList }) => {
     const files = fileList.map((f) =>({
       ...f,
-      url: getKey(f).url
+      url: f.url || getKey(f).url
     }))
     onChange?.(files);
   };
