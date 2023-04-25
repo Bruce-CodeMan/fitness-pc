@@ -18,6 +18,7 @@ const My = () => {
     const formRef = useRef<ProFormInstance>();
     const { store } = useUserContext();
     const [ updateUserInfo ] = useMutation(UPDATE_USER);
+    console.log(store);
     useEffect(()=>{
         if(!store.tel){
             return
@@ -26,9 +27,9 @@ const My = () => {
             tel: store.tel,
             name: store.name,
             desc: store.desc,
-            avatar: {
+            avatar: [{
                 url: store.avatar,
-            }
+            }]
         })
     }, [store])
     return (
@@ -45,13 +46,14 @@ const My = () => {
                 }}
                 onFinish={
                     async (value) => {
+                        console.log(value)
                         const res = await updateUserInfo({
                             variables: {
                                 id: store.id,
                                 params: {
                                     name: value.name,
                                     desc: value.desc,
-                                    avatar: value.avatar?.url || '',
+                                    avatar: value.avatar[0]?.url || '',
                                 }
                             }
                         })

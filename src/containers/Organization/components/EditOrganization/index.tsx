@@ -18,6 +18,7 @@ const EditOrganization = ({id, onClose}: IProp) => {
     const { data, loading: queryLoading } = useOrganization(id);
 
     const initValue = useMemo(() => (data? {
+        ...data,
         tags: data.tags?.split(','),
         logo: [{ url: data.logo }],
     }: {}), [data])
