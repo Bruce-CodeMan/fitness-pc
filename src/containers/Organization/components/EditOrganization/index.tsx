@@ -28,7 +28,6 @@ const EditOrganization = ({id, onClose}: IProp) => {
     }: {}), [data])
 
     const onFinishHandler = async () => {
-        console.log("发送")
         const values = await form.validateFields();
         if(values) {
             const formData = {
