@@ -1,6 +1,6 @@
 import { PageContainer, ProList } from "@ant-design/pro-components";
 import { Button, Popconfirm, Tag } from "antd";
-import { useOrganizations } from "../../service/organization";
+import { useDeleteOrg, useOrganizations } from "../../service/organization";
 import { DEFAULT_PAGE_SIZE } from "../../utils/constant";
 import { useState } from "react";
 import EditOrganization from "./components/EditOrganization";
@@ -15,6 +15,7 @@ const Organization = () => {
     const { loading, refetch, page, data } = useOrganizations();
     const [ showEdit, setShowEdit ] = useState(false);
     const [ curId, setCurId ] = useState('');
+    const [ handleDel, _ ] = useDeleteOrg();
 
     const onCloseHandler = () => {
         setShowEdit(false);
@@ -36,7 +37,7 @@ const Organization = () => {
     }
 
     const delInfoHandler = async (id: string) => {
-        
+        handleDel(id, refetch);
     }
 
     const dataSource = data?.map((item) => ({

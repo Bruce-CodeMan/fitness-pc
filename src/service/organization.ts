@@ -74,6 +74,6 @@ import { TOrganizationsQuery, TOrganizationQuery, TBaseOrganization } from "../u
          }
          message.error(res.data.deleteOrganization.message);
      }
-     return [handleDel, loading]
+     return [handleDel, loading];
 
  }
