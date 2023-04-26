@@ -43,6 +43,15 @@ query getOrganizationInfo($id: String!) {
       identityCardBackImg
       identityCardFrontImg
       businessLicense
+      orgFrontImg{
+        url
+      }
+      orgRoomImg{
+        url
+      }
+      orgOtherImg{
+        url
+      }
     }
   }
 }
