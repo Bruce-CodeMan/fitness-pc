@@ -49,6 +49,7 @@ import { TOrganizationsQuery, TOrganizationQuery, TBaseOrganization } from "../u
                  params
              }
          })
+         console.log(res)
          message.info(res.data.commitOrganization.message);
      }
 

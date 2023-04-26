@@ -34,6 +34,15 @@ query getOrganizationInfo($id: String!) {
       id
       logo
       name
+      tel
+      address
+      longitude
+      latitude
+      description
+      tags
+      identityCardBackImg
+      identityCardFrontImg
+      businessLicense
     }
   }
 }

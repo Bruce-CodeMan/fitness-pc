@@ -5,7 +5,7 @@
  */
 import { Drawer, Button, Form, Row, Col, Input, Select, Spin, UploadFile } from "antd";
 import OSSImageUpload from "../../../../components/OSSImageUpload";
-import { useOrganization } from "../../../../service/organization";
+import { useEditInfo, useOrganization } from "../../../../service/organization";
 import { useMemo } from "react";
 import { IOrganization } from "../../../../utils/types";
 
@@ -17,27 +17,27 @@ interface IProp {
 const EditOrganization = ({id, onClose}: IProp) => {
     const [form] = Form.useForm();
     const { data, loading: queryLoading } = useOrganization(id);
-
+    const [ edit, editLoading ] = useEditInfo();
+    console.log(data)
     const initValue = useMemo(() => (data? {
         ...data,
         tags: data.tags?.split(','),
         logo: [{ url: data.logo }],
+        identityCardBackImg: [{ url: data.identityCardBackImg }],
+        identityCardFrontImg: [{ url: data.identityCardFrontImg }],
+        businessLicense: [{ url: data.businessLicense }]
     }: {}), [data])
 
     const onFinishHandler = async () => {
+        console.log("发送")
         const values = await form.validateFields();
         if(values) {
             const formData = {
                 ...values,
                 logo: values.logo[0].url,
-                tags: values.tags[0].join(','),
-                identityCardBackImg: values.identityCardBackImg[0].url,
-                identityCardFrontImg: values.identityCardFrontImg[0].url,
-                businessLicense: values.businessLicense[0].url,
-                orgFrontImg: values?.orgFrontImg?.map((item: UploadFile) => ({ url: item.url })),
-                orgRoomImg: values?.orgRoomImg?.map((item: UploadFile) => ({ url: item.url })),
-                orgOtherImg: values?.orgOtherImg?.map((item: UploadFile) => ({ url: item.url })),
+                tags: values.tags.join(','),
             } as IOrganization;
+            edit(id, formData);
         }
     }
 
@@ -54,6 +54,7 @@ const EditOrganization = ({id, onClose}: IProp) => {
             footerStyle={{ textAlign: 'right' }}
             footer={(
                 <Button
+                    loading={editLoading}
                     type="primary"
                     onClick={onFinishHandler}
                 >
@@ -61,7 +62,7 @@ const EditOrganization = ({id, onClose}: IProp) => {
                 </Button>
             )}
         >
-            <Form layout="vertical" initialValues={initValue}>
+            <Form layout="vertical" initialValues={initValue} form={form}>
                 <Row gutter={20}>
                     <Col span={10}>
                         <Form.Item 
