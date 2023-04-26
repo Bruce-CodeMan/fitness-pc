@@ -18,7 +18,6 @@ const EditOrganization = ({id, onClose}: IProp) => {
     const [form] = Form.useForm();
     const { data, loading: queryLoading } = useOrganization(id);
     const [ edit, editLoading ] = useEditInfo();
-    console.log(data)
     const initValue = useMemo(() => (data? {
         ...data,
         tags: data.tags?.split(','),
@@ -36,6 +35,12 @@ const EditOrganization = ({id, onClose}: IProp) => {
                 ...values,
                 logo: values.logo[0].url,
                 tags: values.tags.join(','),
+                identityCardBackImg: values.identityCardBackImg[0].url,
+                identityCardFrontImg: values.identityCardFrontImg[0].url,
+                businessLicense: values.businessLicense[0].url,
+                orgFrontImg: values.orgFrontImg?.map((item: UploadFile) => ({ url: item.url })),
+                orgRoomImg: values.orgRoomImg?.map((item: UploadFile) => ({ url: item.url })),
+                orgOtherImg: values.orgOtherImg?.map((item: UploadFile) => ({ url: item.url })),
             } as IOrganization;
             edit(id, formData);
         }

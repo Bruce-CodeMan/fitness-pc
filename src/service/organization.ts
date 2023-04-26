@@ -41,7 +41,7 @@ import { TOrganizationsQuery, TOrganizationQuery, TBaseOrganization } from "../u
 
  export const useEditInfo = (): [handleEdit: Function, loading: boolean] => {
      const [edit, { loading }] = useMutation(COMMIT_ORGANIZATION);
-
+     console.log("进来了")
      const handleEdit = async(id: number, params: TBaseOrganization) => {
          const res = await edit({
              variables: {
