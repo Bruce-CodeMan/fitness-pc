@@ -3,7 +3,7 @@
  * @Author: Bruce
  * @Description: 
  */
-import { Drawer, Button, Form, Row, Col, Input, Select, Spin, UploadFile } from "antd";
+import { Drawer, Button, Form, Row, Col, Input, Select, Spin, UploadFile, Divider } from "antd";
 import OSSImageUpload from "../../../../components/OSSImageUpload";
 import { useEditInfo, useOrganization } from "../../../../service/organization";
 import { useMemo } from "react";
@@ -192,8 +192,19 @@ const EditOrganization = ({id, onClose}: IProp) => {
                         />
                         </Form.Item>
                     </Col>
-                    </Row>
-
+                </Row>
+                <Divider>门店顶部图: 图片长宽要求比例为2:1,最多上传5张</Divider>
+                <Form.Item name="orgFrontImg">
+                    <OSSImageUpload maxCount={5} imgCropAspect={2 / 1}/>
+                </Form.Item>
+                <Divider>门店室内图: 图片长宽要求比例为2:1,最多上传5张</Divider>
+                <Form.Item name="orgRoomImg">
+                    <OSSImageUpload maxCount={5} imgCropAspect={2 / 1}/>
+                </Form.Item>
+                <Divider>门店其他图: 图片长宽要求比例为2:1,最多上传5张</Divider>
+                <Form.Item>
+                    <OSSImageUpload maxCount={5} imgCropAspect={2 / 1}/>
+                </Form.Item>
             </Form>
         </Drawer>
     )
