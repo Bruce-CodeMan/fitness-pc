@@ -38,3 +38,12 @@ query getOrganizationInfo($id: String!) {
   }
 }
 `;
+
+export const COMMIT_ORGANIZATION = gql`
+  mutation commitOrganization($params: OrganizationInput!, $id: String) {
+    commitOrganization(params: $params, id: $id) {
+      code
+      message
+    }
+  }
+`;

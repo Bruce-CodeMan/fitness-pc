@@ -3,7 +3,7 @@
  * @Author: Bruce
  * @Description: 
  */
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { GET_ORGANIZATION, GET_ORGANIZATIONS } from "../graphql/organization";
 import { DEFAULT_PAGE_SIZE } from "../utils/constant";
 import { TOrganizationsQuery, TOrganizationQuery } from "../utils/types";
@@ -37,3 +37,7 @@ import { TOrganizationsQuery, TOrganizationQuery } from "../utils/types";
         data: data?.getOrganizationInfo.data,
     }
  }
+
+//  export const useEditInfo = (): [handleEdit: Function, loading: boolean] => {
+//      const [edit, { loading }] = useMutation()
+//  }
