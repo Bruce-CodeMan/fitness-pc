@@ -35,6 +35,10 @@ const Organization = () => {
         setShowEdit(true);
     }
 
+    const delInfoHandler = async (id: string) => {
+        
+    }
+
     const dataSource = data?.map((item) => ({
         ...item,
         key: item.id,
@@ -44,6 +48,7 @@ const Organization = () => {
             <Popconfirm
                 title="提醒"
                 description={`确定要删除 ${item.name} 吗?`}
+                onConfirm={() => delInfoHandler(item.id)}
             >
                 <Button type="link">删除</Button>
             </Popconfirm>
