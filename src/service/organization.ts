@@ -34,7 +34,7 @@ import { TOrganizationsQuery, TOrganizationQuery, TBaseOrganization } from "../u
             id
         }
     });
-
+    
     return {
         loading,
         data: data?.getOrganizationInfo.data,

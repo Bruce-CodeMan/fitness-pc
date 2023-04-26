@@ -26,7 +26,6 @@ const EditOrganization = ({id, onClose}: IProp) => {
         identityCardFrontImg: [{ url: data.identityCardFrontImg }],
         businessLicense: [{ url: data.businessLicense }]
     }: {}), [data])
-
     const onFinishHandler = async () => {
         const values = await form.validateFields();
         if(values) {
@@ -206,7 +205,7 @@ const EditOrganization = ({id, onClose}: IProp) => {
                     <OSSImageUpload maxCount={5} imgCropAspect={2 / 1}/>
                 </Form.Item>
                 <Divider>门店其他图: 图片长宽要求比例为2:1,最多上传5张</Divider>
-                <Form.Item>
+                <Form.Item name="orgOtherImg">
                     <OSSImageUpload maxCount={5} imgCropAspect={2 / 1}/>
                 </Form.Item>
             </Form>
