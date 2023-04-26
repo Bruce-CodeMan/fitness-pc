@@ -3,10 +3,11 @@
  * @Author: Bruce
  * @Description: 
  */
-import { Drawer, Button, Form, Row, Col, Input, Select, Spin } from "antd";
+import { Drawer, Button, Form, Row, Col, Input, Select, Spin, UploadFile } from "antd";
 import OSSImageUpload from "../../../../components/OSSImageUpload";
 import { useOrganization } from "../../../../service/organization";
 import { useMemo } from "react";
+import { IOrganization } from "../../../../utils/types";
 
 interface IProp {
     id: string;
@@ -23,6 +24,23 @@ const EditOrganization = ({id, onClose}: IProp) => {
         logo: [{ url: data.logo }],
     }: {}), [data])
 
+    const onFinishHandler = async () => {
+        const values = await form.validateFields();
+        if(values) {
+            const formData = {
+                ...values,
+                logo: values.logo[0].url,
+                tags: values.tags[0].join(','),
+                identityCardBackImg: values.identityCardBackImg[0].url,
+                identityCardFrontImg: values.identityCardFrontImg[0].url,
+                businessLicense: values.businessLicense[0].url,
+                orgFrontImg: values?.orgFrontImg?.map((item: UploadFile) => ({ url: item.url })),
+                orgRoomImg: values?.orgRoomImg?.map((item: UploadFile) => ({ url: item.url })),
+                orgOtherImg: values?.orgOtherImg?.map((item: UploadFile) => ({ url: item.url })),
+            } as IOrganization;
+        }
+    }
+
     if(queryLoading) {
         return <Spin />
     }
@@ -37,6 +55,7 @@ const EditOrganization = ({id, onClose}: IProp) => {
             footer={(
                 <Button
                     type="primary"
+                    onClick={onFinishHandler}
                 >
                     保存
                 </Button>
