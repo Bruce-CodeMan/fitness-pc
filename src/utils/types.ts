@@ -57,5 +57,6 @@ export interface IOrganization {
     businessLicense: string;
 }
 
+export type TBaseOrganization = Partial<IOrganization>;
 export type TOrganizationsQuery = { [key: string]: { _typename?: 'Query', data: IOrganization[], page: IPage } };
 export type TOrganizationQuery = { [key: string]: { _typename?: 'Query', data: IOrganization } };

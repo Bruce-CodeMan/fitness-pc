@@ -4,9 +4,10 @@
  * @Description: 
  */
 import { useMutation, useQuery } from "@apollo/client";
-import { GET_ORGANIZATION, GET_ORGANIZATIONS } from "../graphql/organization";
+import { message } from "antd";
+import { GET_ORGANIZATION, GET_ORGANIZATIONS, COMMIT_ORGANIZATION } from "../graphql/organization";
 import { DEFAULT_PAGE_SIZE } from "../utils/constant";
-import { TOrganizationsQuery, TOrganizationQuery } from "../utils/types";
+import { TOrganizationsQuery, TOrganizationQuery, TBaseOrganization } from "../utils/types";
 
  export const useOrganizations = (pageNum=1, pageSize=DEFAULT_PAGE_SIZE) => {
      const { loading, data, refetch } = useQuery<TOrganizationsQuery>(GET_ORGANIZATIONS, {
@@ -38,6 +39,18 @@ import { TOrganizationsQuery, TOrganizationQuery } from "../utils/types";
     }
  }
 
-//  export const useEditInfo = (): [handleEdit: Function, loading: boolean] => {
-//      const [edit, { loading }] = useMutation()
-//  }
+ export const useEditInfo = (): [handleEdit: Function, loading: boolean] => {
+     const [edit, { loading }] = useMutation(COMMIT_ORGANIZATION);
+
+     const handleEdit = async(id: number, params: TBaseOrganization) => {
+         const res = await edit({
+             variables: {
+                 id,
+                 params
+             }
+         })
+         message.info(res.data.commitOrganization.message);
+     }
+
+     return [ handleEdit, loading ];
+ }
