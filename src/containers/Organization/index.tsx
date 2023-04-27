@@ -37,6 +37,7 @@ const Organization = () => {
     }
 
     const delInfoHandler = async (id: string) => {
+        console.log(id)
         handleDel(id, refetch);
     }
 
