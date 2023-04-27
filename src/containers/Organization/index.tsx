@@ -17,11 +17,13 @@ const Organization = () => {
     const [ curId, setCurId ] = useState('');
     const [ handleDel, delLoading ] = useDeleteOrg();
 
+    // 关闭抽屉弹出框
     const onCloseHandler = () => {
         setShowEdit(false);
         refetch();
     }
 
+    // 获取翻页
     const onPageChangeHandler = (pageNum: number, pageSize: number) => {
         refetch({
             page: {
@@ -31,15 +33,18 @@ const Organization = () => {
         })
     }
 
+    // 编辑函数
     const editInfoHandler = (id: string) => {
         setCurId(id);
         setShowEdit(true);
     }
 
+    // 删除函数
     const delInfoHandler = async (id: string) => {
         handleDel(id, refetch);
     }
 
+    // 新增门店
     const addInfoHandler = () => {
         setCurId('');
         setShowEdit(true);
