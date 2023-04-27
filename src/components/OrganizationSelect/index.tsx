@@ -7,9 +7,19 @@ import { Select, Space } from "antd";
 import { useOrganizations } from "../../service/organization";
 import _ from 'lodash';
 import { useUserContext } from "../../hooks/userHooks";
+import { LOCAL_CURRENT_ORG } from "../../utils/constant";
+
+const currentOrg = () => {
+    try {
+        const res = JSON.parse(localStorage.getItem(LOCAL_CURRENT_ORG) || '{}');
+        return res
+    } catch {
+        return undefined;
+    }
+}
 
 const OrganizationSelect = () => {
-    const { store, setStore } = useUserContext();
+    const { setStore } = useUserContext();
 
     const { data, refetch } = useOrganizations(1, 10, true);
 
@@ -19,10 +29,11 @@ const OrganizationSelect = () => {
         })
     }, 500);
 
-    const onChangeHandler = (val :string) => {
+    const onChangeHandler = (val :{ value: string, label: string }) => {
         setStore({
-            currentOrg: val
-        })
+            currentOrg: val.value
+        });
+        localStorage.setItem(LOCAL_CURRENT_ORG, JSON.stringify(val));
     }
 
     return (
@@ -34,7 +45,9 @@ const OrganizationSelect = () => {
                 showSearch
                 onSearch={onSearchHandler}
                 filterOption={false}
+                defaultValue={currentOrg()}
                 onChange={onChangeHandler}
+                labelInValue
             >
                 {data?.map((item) => (
                     <Select.Option
