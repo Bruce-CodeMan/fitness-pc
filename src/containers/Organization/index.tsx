@@ -15,13 +15,15 @@ const Organization = () => {
     const { loading, refetch, page, data } = useOrganizations();
     const [ showEdit, setShowEdit ] = useState(false);
     const [ curId, setCurId ] = useState('');
-    const [ handleDel, _ ] = useDeleteOrg();
+    const [ handleDel, delLoading ] = useDeleteOrg();
 
+    // 关闭抽屉弹出框
     const onCloseHandler = () => {
         setShowEdit(false);
         refetch();
     }
 
+    // 获取翻页
     const onPageChangeHandler = (pageNum: number, pageSize: number) => {
         refetch({
             page: {
@@ -31,24 +33,35 @@ const Organization = () => {
         })
     }
 
+    // 编辑函数
     const editInfoHandler = (id: string) => {
         setCurId(id);
         setShowEdit(true);
     }
 
+    // 删除函数
     const delInfoHandler = async (id: string) => {
         console.log(id)
         handleDel(id, refetch);
     }
 
+    // 新增门店
+    const addInfoHandler = () => {
+        setCurId('');
+        setShowEdit(true);
+    }
+
     const dataSource = data?.map((item) => ({
         ...item,
         key: item.id,
-        subTitle: <div>{item.tags?.split('.').map((tag) => (<Tag key={tag} color="#5BD8A6">{tag}</Tag>))}</div>,
+        subTitle: <div>{item.tags?.split(',').map((tag) => (<Tag key={tag} color="#5BD8A6">{tag}</Tag>))}</div>,
         actions: [
             <Button type="link" onClick={() => editInfoHandler(item.id)}>编辑</Button>,
             <Popconfirm
                 title="提醒"
+                okButtonProps={{
+                    loading: delLoading
+                }}
                 description={`确定要删除 ${item.name} 吗?`}
                 onConfirm={() => delInfoHandler(item.id)}
             >
@@ -65,7 +78,7 @@ const Organization = () => {
             title: '门店管理'
         }}
         extra={[
-            <Button type="primary">新增门店</Button>
+            <Button key="1" type="primary" onClick={addInfoHandler}>新增门店</Button>
         ]}
       >
           <ProList<any> 

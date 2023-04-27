@@ -5,13 +5,13 @@
  */
 import { useMutation, useQuery } from "@apollo/client";
 import { message } from "antd";
-import { GET_ORGANIZATION, GET_ORGANIZATIONS, COMMIT_ORGANIZATION, DEL_ORGANIZATION } from "../graphql/organization";
+import { GET_ORGANIZATION, GET_ORGANIZATIONS, COMMIT_ORGANIZATION, DEL_ORGANIZATION, GET_SIMPLE_ORGANIZATION } from "../graphql/organization";
 import { DEFAULT_PAGE_SIZE } from "../utils/constant";
 import { TOrganizationsQuery, TOrganizationQuery, TBaseOrganization } from "../utils/types";
 
 // 通过分页获取Organizations
- export const useOrganizations = (pageNum=1, pageSize=DEFAULT_PAGE_SIZE) => {
-     const { loading, data, refetch } = useQuery<TOrganizationsQuery>(GET_ORGANIZATIONS, {
+ export const useOrganizations = (pageNum=1, pageSize=DEFAULT_PAGE_SIZE, isSample=false) => {
+     const { loading, data, refetch } = useQuery<TOrganizationsQuery>(isSample ? GET_SIMPLE_ORGANIZATION : GET_ORGANIZATIONS, {
          variables: {
              page: {
                  pageNum,
@@ -67,12 +67,13 @@ import { TOrganizationsQuery, TOrganizationQuery, TBaseOrganization } from "../u
                  id
              },
          });
-         if(res.data.deleteOrganization.code === 200) {
-             message.success(res.data.deleteOrganization.message);
+         console.log(res)
+         if(res.data.delOrganization.code === 200) {
+             message.success(res.data.delOrganization.message);
              callback();
              return;
          }
-         message.error(res.data.deleteOrganization.message);
+         message.error(res.data.delOrganization.message);
      }
      return [handleDel, loading];
 
