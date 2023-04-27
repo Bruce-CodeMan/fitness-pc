@@ -26,8 +26,8 @@ export const GET_ORGANIZATIONS = gql`
 `;
 
 export const GET_SIMPLE_ORGANIZATION = gql`
-  query getOrganizations($page: PageInput!) {
-    getOrganizations(page: $page) {
+  query getOrganizations($page: PageInput!, $name: String) {
+    getOrganizations(page: $page, name: $name) {
       code
       message
       data{

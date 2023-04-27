@@ -3,31 +3,50 @@
  * @Author: Bruce
  * @Description: Organization Select
  */
-import { Select } from "antd";
+import { Select, Space } from "antd";
 import { useOrganizations } from "../../service/organization";
+import _ from 'lodash';
+import { useUserContext } from "../../hooks/userHooks";
 
 const OrganizationSelect = () => {
+    const { store, setStore } = useUserContext();
 
-    const { data } = useOrganizations(1, 10, true);
+    const { data, refetch } = useOrganizations(1, 10, true);
 
-    const onSearchHandler = () => {}
+    const onSearchHandler = _.debounce((name: string) => {
+        refetch({
+            name
+        })
+    }, 500);
+
+    const onChangeHandler = (val :string) => {
+        setStore({
+            currentOrg: val
+        })
+    }
 
     return (
-        <Select 
-            style={{ width: 200 }}
-            placeholder="请选择门店"
-            showSearch
-            onSearch={onSearchHandler}
-        >
-            {data?.map((item) => (
-                <Select.Option
-                    key={item.id}
-                    value={item.id}
-                >
-                    {item.name}
-                </Select.Option>
-            ))}
-        </Select>
+        <Space>
+            选择门店:
+            <Select 
+                style={{ width: 200 }}
+                placeholder="请选择门店"
+                showSearch
+                onSearch={onSearchHandler}
+                filterOption={false}
+                onChange={onChangeHandler}
+            >
+                {data?.map((item) => (
+                    <Select.Option
+                        key={item.id}
+                        value={item.id}
+                    >
+                        {item.name}
+                    </Select.Option>
+                ))}
+            </Select>
+        </Space>
+        
     )
 }
 
