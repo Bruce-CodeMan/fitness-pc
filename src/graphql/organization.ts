@@ -67,8 +67,8 @@ export const COMMIT_ORGANIZATION = gql`
 `;
 
 export const DEL_ORGANIZATION = gql`
-  mutation deleteOrganization($id: String!) {
-    deleteOrganization(id: $id) {
+  mutation delOrganization($id: String!) {
+    delOrganization(id: $id) {
       code
       message
     }

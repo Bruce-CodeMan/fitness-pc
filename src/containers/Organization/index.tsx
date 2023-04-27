@@ -15,7 +15,7 @@ const Organization = () => {
     const { loading, refetch, page, data } = useOrganizations();
     const [ showEdit, setShowEdit ] = useState(false);
     const [ curId, setCurId ] = useState('');
-    const [ handleDel, _ ] = useDeleteOrg();
+    const [ handleDel, delLoading ] = useDeleteOrg();
 
     const onCloseHandler = () => {
         setShowEdit(false);
@@ -43,11 +43,14 @@ const Organization = () => {
     const dataSource = data?.map((item) => ({
         ...item,
         key: item.id,
-        subTitle: <div>{item.tags?.split('.').map((tag) => (<Tag key={tag} color="#5BD8A6">{tag}</Tag>))}</div>,
+        subTitle: <div>{item.tags?.split(',').map((tag) => (<Tag key={tag} color="#5BD8A6">{tag}</Tag>))}</div>,
         actions: [
             <Button type="link" onClick={() => editInfoHandler(item.id)}>编辑</Button>,
             <Popconfirm
                 title="提醒"
+                okButtonProps={{
+                    loading: delLoading
+                }}
                 description={`确定要删除 ${item.name} 吗?`}
                 onConfirm={() => delInfoHandler(item.id)}
             >
