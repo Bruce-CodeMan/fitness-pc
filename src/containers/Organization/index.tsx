@@ -40,6 +40,11 @@ const Organization = () => {
         handleDel(id, refetch);
     }
 
+    const addInfoHandler = () => {
+        setCurId('');
+        setShowEdit(true);
+    }
+
     const dataSource = data?.map((item) => ({
         ...item,
         key: item.id,
@@ -67,7 +72,7 @@ const Organization = () => {
             title: '门店管理'
         }}
         extra={[
-            <Button type="primary">新增门店</Button>
+            <Button key="1" type="primary" onClick={addInfoHandler}>新增门店</Button>
         ]}
       >
           <ProList<any> 

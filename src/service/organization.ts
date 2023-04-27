@@ -67,12 +67,13 @@ import { TOrganizationsQuery, TOrganizationQuery, TBaseOrganization } from "../u
                  id
              },
          });
-         if(res.data.deleteOrganization.code === 200) {
-             message.success(res.data.deleteOrganization.message);
+         console.log(res)
+         if(res.data.delOrganization.code === 200) {
+             message.success(res.data.delOrganization.message);
              callback();
              return;
          }
-         message.error(res.data.deleteOrganization.message);
+         message.error(res.data.delOrganization.message);
      }
      return [handleDel, loading];
 
