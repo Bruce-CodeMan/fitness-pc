@@ -5,13 +5,13 @@
  */
 import { useMutation, useQuery } from "@apollo/client";
 import { message } from "antd";
-import { GET_ORGANIZATION, GET_ORGANIZATIONS, COMMIT_ORGANIZATION, DEL_ORGANIZATION } from "../graphql/organization";
+import { GET_ORGANIZATION, GET_ORGANIZATIONS, COMMIT_ORGANIZATION, DEL_ORGANIZATION, GET_SIMPLE_ORGANIZATION } from "../graphql/organization";
 import { DEFAULT_PAGE_SIZE } from "../utils/constant";
 import { TOrganizationsQuery, TOrganizationQuery, TBaseOrganization } from "../utils/types";
 
 // 通过分页获取Organizations
- export const useOrganizations = (pageNum=1, pageSize=DEFAULT_PAGE_SIZE) => {
-     const { loading, data, refetch } = useQuery<TOrganizationsQuery>(GET_ORGANIZATIONS, {
+ export const useOrganizations = (pageNum=1, pageSize=DEFAULT_PAGE_SIZE, isSample=false) => {
+     const { loading, data, refetch } = useQuery<TOrganizationsQuery>(isSample ? GET_SIMPLE_ORGANIZATION : GET_ORGANIZATIONS, {
          variables: {
              page: {
                  pageNum,
