@@ -10,8 +10,9 @@ import logo from "../../assets/react.svg";
 import { routes, ROUTE_KEY } from '../../routes/menus';
 import { AUTH_TOKEN } from '../../utils/constant';
 import { useGoTo } from '../../hooks';
-import { Space } from 'antd';
-import { LogoutOutlined } from '@ant-design/icons';
+import { Space, Tooltip } from 'antd';
+import { LogoutOutlined, ShopOutlined } from '@ant-design/icons';
+import OrganizationSelect from '../OrganizationSelect';
 
 /**
 * 外层框架
@@ -32,6 +33,10 @@ const Layout = () => {
         sessionStorage.setItem(AUTH_TOKEN, '');
         localStorage.setItem(AUTH_TOKEN, '');
         nav('/login');
+    }
+
+    const goToOrganization = () => {
+        go(ROUTE_KEY.ORGANIZATION)
     }
 
     return (
@@ -55,6 +60,12 @@ const Layout = () => {
                 path: '/',
                 routes: routes
             }}
+            actionsRender={() => [
+                <OrganizationSelect />,
+                <Tooltip title="门店管理">
+                    <ShopOutlined onClick={goToOrganization}/>
+                </Tooltip>
+            ]}
             menuItemRender={menuItemRender}
             onMenuHeaderClick={() => nav('/')}
         >
