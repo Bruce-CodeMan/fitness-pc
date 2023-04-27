@@ -4,17 +4,23 @@
  * @Description: 
  */
 import { Select } from "antd";
+import { useOrganizations } from "../../service/organization";
 
 const OrganizationSelect = () => {
 
-
+    const { data } = useOrganizations(1, 10, true);
 
     return (
-        <div>
-            <Select>
-                
-            </Select>
-        </div>
+        <Select>
+            {data?.map((item) => (
+                <Select.Option
+                    key={item.id}
+                    value={item.id}
+                >
+                    {item.name}
+                </Select.Option>
+            ))}
+        </Select>
     )
 }
 
