@@ -8,6 +8,7 @@ import { useOrganizations } from "../../service/organization";
 import _ from 'lodash';
 import { useUserContext } from "../../hooks/userHooks";
 import { LOCAL_CURRENT_ORG } from "../../utils/constant";
+import { useEffect } from "react";
 
 const currentOrg = () => {
     try {
@@ -22,6 +23,14 @@ const OrganizationSelect = () => {
     const { setStore } = useUserContext();
 
     const { data, refetch } = useOrganizations(1, 10, true);
+
+    useEffect(() => {
+        if(currentOrg()?.value) {
+            setStore({
+                currentOrg: currentOrg().value,
+            })
+        }
+    })
 
     const onSearchHandler = _.debounce((name: string) => {
         refetch({
