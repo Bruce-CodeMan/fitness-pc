@@ -6,46 +6,48 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
 import { IPropChild } from "./types";
 
-interface IStore {
+interface IStore<T> {
     key: string;
-    store: Record<string, any>;
-    setStore: (payload: Record<string, any>) => void;
+    store: T;
+    setStore: (payload: Partial<T>) => void;
 }
 
 
-const getCtxProvider = (
+function getCtxProvider<T> (
     key: string, 
-    defaultValue: Record<string, any>,
-    AppContext: React.Context<IStore>
-) => ({ children }: IPropChild) => {
+    defaultValue: T,
+    AppContext: React.Context<IStore<T>>
+) {
+    return ({ children }: IPropChild) => {
 
-    const [store, setStore] = useState(defaultValue);
+        const [store, setStore] = useState(defaultValue);
 
-    const value = useMemo(() => ({
-        key, 
-        store, 
-        setStore: (payload = {}) => setStore((state) => ({
-            ...state,
-            ...payload,
-        }))
-    }), [store]);
+        const value = useMemo(() => ({
+            key, 
+            store, 
+            setStore: (payload = {}) => setStore((state) => ({
+                ...state,
+                ...payload,
+            }))
+        }), [store]);
 
-    return (
-        <AppContext.Provider value={value}>
-            {children}
-        </AppContext.Provider>
-    )
+        return (
+            <AppContext.Provider value={value}>
+                {children}
+            </AppContext.Provider>
+        )
+    };
 }
 
 const ctxCache: Record<string, Ctx> = {};
 
-class Ctx {
+class Ctx<T = any> {
 
-    defaultStore: IStore;
-    AppContext: React.Context<IStore>;
+    defaultStore: IStore<T>;
+    AppContext: React.Context<IStore<T>>;
     Provider: ({ children }: IPropChild) => JSX.Element;
 
-    constructor(key: string, defaultValue: Record<string, any>){
+    constructor(key: string, defaultValue: T){
         this.defaultStore = {
             key,
             store: defaultValue,
@@ -61,8 +63,8 @@ class Ctx {
 }
 
 // Context的生成器
-export const useAppContext = (key: string) => {
-    const ctx = ctxCache[key];
+export function useAppContext<T> (key: string) {
+    const ctx = ctxCache[key] as Ctx<T>;
     const app = useContext(ctx.AppContext);
     return {
         store: app.store,
@@ -70,16 +72,16 @@ export const useAppContext = (key: string) => {
     }
 }
 
-export const connectFactory = (
+export function connectFactory<T> (
     key: string,
-    defaultValue: Record<string, any>
-) => {
+    defaultValue: T
+) {
     const ctx = ctxCache[key];
-    let CurCtx: Ctx;
+    let CurCtx: Ctx<T>;
     if(ctx) {
         CurCtx = ctx;
     }else{
-        CurCtx = new Ctx(key, defaultValue);
+        CurCtx = new Ctx<T>(key, defaultValue);
     }
 
     return (Child: React.FunctionComponent<any>) => (props: any) => (

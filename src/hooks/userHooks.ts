@@ -12,7 +12,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const KEY = 'userInfo'
 const DEFAULT_VALUE = {}
 
-export const useUserContext = () => useAppContext(KEY);
+export const useUserContext = () => useAppContext<IUser>(KEY);
 
 export const connect = connectFactory(KEY, DEFAULT_VALUE);
 
