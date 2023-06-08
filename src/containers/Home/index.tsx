@@ -14,7 +14,7 @@ import { ROUTE_KEY } from '../../routes/menus';
 const Home = () => {
     const { store } = useUserContext();
     const { go } = useGoTo();
-    return (<Button onClick={() => go(ROUTE_KEY.MY)}>个人中心</Button>);
+    return (<Button onClick={() => go(ROUTE_KEY.MY)}>个人中心{store.currentOrg}</Button>);
 };
 
 export default Home;    

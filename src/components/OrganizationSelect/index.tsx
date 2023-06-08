@@ -9,10 +9,12 @@ import _ from 'lodash';
 import { useUserContext } from "../../hooks/userHooks";
 import { LOCAL_CURRENT_ORG } from "../../utils/constant";
 import { useEffect } from "react";
+import { useGoTo } from "../../hooks";
+import { ROUTE_KEY } from "../../routes/menus";
 
 const currentOrg = () => {
     try {
-        const res = JSON.parse(localStorage.getItem(LOCAL_CURRENT_ORG) || '{}');
+        const res = JSON.parse(localStorage.getItem(LOCAL_CURRENT_ORG) || '');
         return res
     } catch {
         return undefined;
@@ -21,7 +23,7 @@ const currentOrg = () => {
 
 const OrganizationSelect = () => {
     const { setStore } = useUserContext();
-
+    const { go } = useGoTo();
     const { data, refetch } = useOrganizations(1, 10, true);
 
     useEffect(() => {
@@ -29,8 +31,10 @@ const OrganizationSelect = () => {
             setStore({
                 currentOrg: currentOrg().value,
             })
+        }else {
+            go(ROUTE_KEY.NO_ORG);
         }
-    })
+    }, [])
 
     const onSearchHandler = _.debounce((name: string) => {
         refetch({
