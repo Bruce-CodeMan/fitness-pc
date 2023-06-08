@@ -16,7 +16,8 @@ export const ROUTE_KEY = {
     HOME: 'home',
     NOTFOUND: '404',
     MY: 'my',
-    ORGANIZATION: 'organization'
+    ORGANIZATION: 'organization',
+    NO_ORG: 'noOrg'
 }
 
 export const ROUTE_CONFIG: Record<string, IRoute> = {
@@ -33,14 +34,18 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
     [ROUTE_KEY.MY]: {
         path: "my",
         name: "个人中心",
-        hideInMenu: true,
-        icon: <HomeOutlined />
+        hideInMenu: true
     },
     [ROUTE_KEY.ORGANIZATION]: {
         path: "organization",
         name: "门店管理",
         hideInMenu: true,
         icon: <ShopOutlined />
+    },
+    [ROUTE_KEY.NO_ORG]: {
+        path: "noOrg",
+        name: "选择门店提示",
+        hideInMenu: true
     }
 }
 
