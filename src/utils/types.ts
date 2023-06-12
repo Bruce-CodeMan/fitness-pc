@@ -62,3 +62,16 @@ export interface IOrganization {
 export type TBaseOrganization = Partial<IOrganization>;
 export type TOrganizationsQuery = { [key: string]: { _typename?: 'Query', data: IOrganization[], page: IPage } };
 export type TOrganizationQuery = { [key: string]: { _typename?: 'Query', data: IOrganization } };
+
+export interface ICourse {
+    id: string;
+    name: string;
+    desc?: string;
+    group?: string;     // 适龄人群
+    baseAbility?: string;
+    limitNumber: number; // 限制人数
+    duration: number;    // 持续时长
+    reserveInfo?: string;
+    refundInfo?: string;
+    otherInfo?: string;
+}

@@ -3,7 +3,7 @@
  * @Author: Bruce
  * @Description: 
  */
-import { HomeOutlined, ShopOutlined } from '@ant-design/icons';
+import { HomeOutlined, ShopOutlined, PicRightOutlined } from '@ant-design/icons';
 
 interface IRoute {
     name: string;
@@ -17,7 +17,8 @@ export const ROUTE_KEY = {
     NOTFOUND: '404',
     MY: 'my',
     ORGANIZATION: 'organization',
-    NO_ORG: 'noOrg'
+    NO_ORG: 'noOrg',
+    COURSE: "course"
 }
 
 export const ROUTE_CONFIG: Record<string, IRoute> = {
@@ -46,6 +47,11 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
         path: "noOrg",
         name: "选择门店提示",
         hideInMenu: true
+    },
+    [ROUTE_KEY.COURSE]: {
+        path: "course",
+        name: "课程管理",
+        icon: <PicRightOutlined />
     }
 }
 
