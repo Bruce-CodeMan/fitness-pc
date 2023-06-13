@@ -75,3 +75,5 @@ export interface ICourse {
     refundInfo?: string;
     otherInfo?: string;
 }
+
+export type TCoursesQuery = { [key: string]: { __typename?: 'Query', data: ICourse[], page: IPage } }
