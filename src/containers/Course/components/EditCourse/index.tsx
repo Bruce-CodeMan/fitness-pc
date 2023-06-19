@@ -18,7 +18,7 @@ const EditCourse = ({
     const onSubmitHandler = async () => {
         const values = await form.validateFields();
         if(values) {
-            handleEdit(id, values);
+            handleEdit(id, values, onClose);
         }
     }
 

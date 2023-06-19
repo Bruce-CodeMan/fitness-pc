@@ -1,7 +1,7 @@
-import { PageContainer, ProTable } from "@ant-design/pro-components";
-import { Button, Drawer } from "antd";
+import { ActionType, PageContainer, ProTable } from "@ant-design/pro-components";
+import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 // Custom Imports
 import { ICourse } from "../../utils/types";
@@ -12,15 +12,22 @@ import EditCourse from "./components/EditCourse"
 
 
 const Course = () => {
-
+    const actionRef = useRef<ActionType>();
     const { data, refetch } = useCourses();
     const [ showInfo, setShowInfo ] = useState(false);
     const onClickAddHandler = () => {
         setShowInfo(true)
     }
+
+    const closeAndRefetchHandler = () => {
+        setShowInfo(false);
+        actionRef.current?.reload()
+    }
+
     return (
         <PageContainer header={{ title: "当前门店下开设的课程" }}>
             <ProTable<ICourse>
+                actionRef={actionRef}
                 columns={COLUMNS}
                 dataSource={data}
                 pagination={{
@@ -53,7 +60,7 @@ const Course = () => {
                     }
                 }} 
              />
-             <EditCourse open={showInfo} onClose={()=>setShowInfo(false)}/>
+             <EditCourse open={showInfo} onClose={closeAndRefetchHandler}/>
         </PageContainer>
     )
 }

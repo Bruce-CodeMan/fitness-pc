@@ -51,7 +51,7 @@ export const useCourses = (
 export const useEditInfo = ():[handleEdit: Function, loading: boolean] => {
     const [ edit, { loading } ] = useMutation(COMMIT_COURSE)
 
-    const handleEdit = async(id: number, params: TBaseCourse) => {
+    const handleEdit = async(id: number, params: TBaseCourse, callback: () => void) => {
         const res = await edit({
             variables: {
                 id,
@@ -59,7 +59,8 @@ export const useEditInfo = ():[handleEdit: Function, loading: boolean] => {
             }
         })
         if(res.data.commitCourseInfo.code === 200) {
-            message.info(res.data.commitCourseInfo.message)
+            message.success(res.data.commitCourseInfo.message)
+            callback();
             return
         }
         message.error(res.data.commitCourseInfo.message)
