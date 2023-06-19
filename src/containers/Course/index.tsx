@@ -1,20 +1,34 @@
 import { PageContainer, ProTable } from "@ant-design/pro-components";
+import { Button, Drawer } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { useState } from "react";
+
+// Custom Imports
 import { ICourse } from "../../utils/types";
 import { COLUMNS } from "./constants";
 import { useCourses } from "../../service/course";
 import { DEFAULT_PAGE_SIZE } from "../../utils/constant";
+import EditCourse from "./components/EditCourse"
+
 
 const Course = () => {
 
     const { data, refetch } = useCourses();
+    const [ showInfo, setShowInfo ] = useState(false);
+    const onClickAddHandler = () => {
+        setShowInfo(true)
+    }
     return (
         <PageContainer header={{ title: "当前门店下开设的课程" }}>
             <ProTable<ICourse>
                 columns={COLUMNS}
                 dataSource={data}
                 pagination={{
-                    pageSize: 2
+                    pageSize: DEFAULT_PAGE_SIZE
                 }}
+                toolBarRender={()=> [
+                    <Button type="primary" onClick={onClickAddHandler} key="add" icon={<PlusOutlined />}>新建</Button>
+                ]}
                 request={async (
                     // 第一个参数 params 查询表单和params参数的结合
                     // 第一个参数中一定会有 pageSize 和 current
@@ -39,6 +53,7 @@ const Course = () => {
                     }
                 }} 
              />
+             <EditCourse open={showInfo} onClose={()=>setShowInfo(false)}/>
         </PageContainer>
     )
 }
