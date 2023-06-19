@@ -77,3 +77,5 @@ export interface ICourse {
 }
 
 export type TCoursesQuery = { [key: string]: { __typename?: 'Query', data: ICourse[], page: IPage } }
+
+export type TBaseCourse = Partial<ICourse>

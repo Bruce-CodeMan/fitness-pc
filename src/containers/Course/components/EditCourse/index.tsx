@@ -1,4 +1,5 @@
 import { Drawer, Form, Input, InputNumber, Row, Col, Space, Button } from "antd"
+import { useEditInfo } from "../../../../service/course";
 
 const { TextArea } = Input
 interface IProps {
@@ -12,10 +13,13 @@ const EditCourse = ({
     onClose,
     open
 }: IProps) => {
-    const [ form ] = Form.useForm()
+    const [ form ] = Form.useForm();
+    const [ handleEdit ] = useEditInfo();
     const onSubmitHandler = async () => {
-        const data = await form.validateFields();
-        console.log("data: ", data)
+        const values = await form.validateFields();
+        if(values) {
+            handleEdit(id, values);
+        }
     }
 
     return (
