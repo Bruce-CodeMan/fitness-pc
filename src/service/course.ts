@@ -10,6 +10,7 @@ export const useCourses = (
     pageSize = DEFAULT_PAGE_SIZE
 ) => {
     const { loading, data, refetch } = useQuery<TCoursesQuery>(GET_COURSES, {
+        skip: true,
         variables: {
             page: {
                 pageNum,
@@ -18,13 +19,19 @@ export const useCourses = (
         }
     });
 
-    const refetchHandler = async (pn: number, ps: number) => {
-        const { data: res } = await refetch({
+    const refetchHandler = async (pn = 1 , ps = DEFAULT_PAGE_SIZE, name='') => {
+        const { data: res, errors } = await refetch({
+            name,
             page: {
                 pageNum: pn,
                 pageSize: ps
             }
-        })
+        });
+        if(errors) {
+            return {
+                success: false
+            }
+        }
 
         return {
             page: res?.getCourses.page,
