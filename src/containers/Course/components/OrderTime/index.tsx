@@ -3,11 +3,15 @@
  * 
  */
 
-import { Drawer, Tabs } from "antd";
+import { Drawer, Tabs, Row, Col, Button } from "antd";
+import { EditableProTable } from "@ant-design/pro-components";
+import { RedoOutlined, ChromeOutlined } from "@ant-design/icons";
 
 // Custom Imports
 import { DAYS, IDay } from "./constants";
 import { useState } from "react";
+import { getColumns } from "./constants";
+import styles from "./index.module.less";
 
 interface IProps {
     id: string;
@@ -26,6 +30,10 @@ const OrderTime = ({
         setCurrentDay(current);
     }
 
+    const onDeleteHandler = () => {
+
+    }
+
     return (
         <Drawer
             title="编辑预约时间"
@@ -39,6 +47,34 @@ const OrderTime = ({
                 items={DAYS}
                 onChange={onTabChangeHandler}
             />
+            <EditableProTable 
+                rowKey="key"
+                recordCreatorProps={{
+                    record: (index: number) => ({
+                        key: index + 1,
+                        startTime: '12:00:00',
+                        endTime: '12:00:00'
+                    })
+                }}
+                columns={getColumns(onDeleteHandler)}
+            />
+            <Row gutter={20} className={styles.buttons}>
+                <Col span={12}>
+                    <Button
+                        icon={<RedoOutlined />}
+                        style={{ width: '100%' }}
+                        type="primary"
+                    >全工作日同步</Button>
+                </Col>
+                <Col span={12}>
+                    <Button
+                        icon={<ChromeOutlined/>}
+                        style={{ width: '100%' }}
+                        type="primary"
+                        danger
+                    >全周同步</Button>
+                </Col>
+            </Row>
         </Drawer>
     )
 }
