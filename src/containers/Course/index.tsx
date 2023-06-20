@@ -25,10 +25,13 @@ const Course = () => {
         setShowInfo(true)
     }
 
-    const closeAndRefetchHandler = () => {
+    const closeAndRefetchHandler = (isReload: boolean) => {
         
         setShowInfo(false);
-        actionRef.current?.reload()
+        if(isReload) {
+            actionRef.current?.reload()
+        }
+        
     }
 
     return (

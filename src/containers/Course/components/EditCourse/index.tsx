@@ -5,7 +5,7 @@ import { useEffect } from "react";
 const { TextArea } = Input
 interface IProps {
     id?: string;
-    onClose: () => void;
+    onClose: (isReload?: boolean) => void;
 }
 
 const EditCourse = ({
@@ -38,10 +38,10 @@ const EditCourse = ({
             title={id?"编辑课程":"新建课程"}
             width={720}
             open 
-            onClose={onClose}
+            onClose={() => onClose()}
             extra={(
                 <Space>
-                    <Button onClick={onClose}>取消</Button>
+                    <Button onClick={() => onClose() }>取消</Button>
                     <Button onClick={onSubmitHandler} type="primary">提交</Button>
                 </Space>
             )}
