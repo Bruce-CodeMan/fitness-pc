@@ -9,6 +9,7 @@ import { COLUMNS } from "./constants";
 import { useCourses } from "../../service/course";
 import { DEFAULT_PAGE_SIZE } from "../../utils/constant";
 import EditCourse from "./components/EditCourse"
+import OrderTime from "./components/OrderTime";
 
 
 const Course = () => {
@@ -16,6 +17,7 @@ const Course = () => {
     const { data, refetch } = useCourses();
     const [ curId, setCurId ] = useState('')
     const [ showInfo, setShowInfo ] = useState(false);
+    const [ showOrderTime, setShowOrderTime ] = useState(false);
     const onClickAddHandler = (id?: string) => {
         if(id) {
             setCurId(id)
@@ -28,10 +30,16 @@ const Course = () => {
     const closeAndRefetchHandler = (isReload?: boolean) => {
         
         setShowInfo(false);
+        setShowOrderTime(false);
         if(isReload) {
             actionRef.current?.reload()
         }
         
+    }
+
+    const onOrderTimeHandler = (id: string) => {
+        setCurId(id);
+        setShowOrderTime(true);
     }
 
     return (
@@ -40,7 +48,8 @@ const Course = () => {
                 rowKey="id"
                 actionRef={actionRef}
                 columns={COLUMNS({
-                    onEditHandler: onClickAddHandler
+                    onEditHandler: onClickAddHandler,
+                    onOrderTimeHandler,
                 })}
                 dataSource={data}
                 pagination={{
@@ -73,7 +82,8 @@ const Course = () => {
                     }
                 }} 
              />
-             {showInfo &&<EditCourse id={curId} onClose={() =>closeAndRefetchHandler}/>}
+             {showInfo && <EditCourse id={curId} onClose={() =>closeAndRefetchHandler}/>}
+             {showOrderTime && <OrderTime id={curId} onClose={() => setShowOrderTime(false)}/> }
         </PageContainer>
     )
 }

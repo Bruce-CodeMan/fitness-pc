@@ -6,12 +6,15 @@ import { ICourse } from "../../utils/types";
 
 interface IProps {
     onEditHandler: (id: string) => void;
+    onOrderTimeHandler: (id: string) => void;
 }
 
 export const COLUMNS: ({
-    onEditHandler
+    onEditHandler,
+    onOrderTimeHandler
 }: IProps) =>ProColumns<ICourse, 'text'>[] = ({
-    onEditHandler
+    onEditHandler,
+    onOrderTimeHandler
 }) =>[
     {
         title: '课程标题',
@@ -35,6 +38,7 @@ export const COLUMNS: ({
         valueType: 'option',
         dataIndex: 'id',
         align: 'center',
+        width: 200,
         render: (text, entity) => [ 
             <Button 
                 type="link" 
@@ -42,6 +46,13 @@ export const COLUMNS: ({
                 onClick={() => onEditHandler(entity.id)}
             >
                 编辑
+            </Button>,
+            <Button 
+                type="link" 
+                key="orderTime" 
+                onClick={() => onOrderTimeHandler(entity.id)}
+            >
+                预约时间
             </Button>
         ]
     }
