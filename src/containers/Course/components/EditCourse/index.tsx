@@ -15,15 +15,19 @@ const EditCourse = ({
     const [ form ] = Form.useForm();
     const [ handleEdit ] = useEditInfo();
 
-    const { refetch } = useCourse();
+    const { getCourse } = useCourse();
     useEffect(() => {
-        if(id) {
-            refetch({
-                id
-            }).then((res) => {
+        const init = async () => {
+            if(id) {
+                const res = await getCourse({
+                    variables: {
+                        id
+                    }
+                });
                 form.setFieldsValue(res.data.getCourseInfo.data)
-            })
+            }
         }
+        init();
     }, [id])
 
     const onSubmitHandler = async () => {

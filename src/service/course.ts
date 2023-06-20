@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 
 // Custom Imports
 import { DEFAULT_PAGE_SIZE } from "../utils/constant";
@@ -69,8 +69,6 @@ export const useEditInfo = ():[handleEdit: Function, loading: boolean] => {
 }
 
 export const useCourse = () => {
-    const { data, refetch } = useQuery(GET_COURSE, {
-        skip: true
-    });
-    return { data, refetch }
+    const [getCourse, { data, loading }] = useLazyQuery(GET_COURSE)
+    return { data, getCourse, loading }
 }
