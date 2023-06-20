@@ -69,7 +69,8 @@ export const useEditInfo = ():[handleEdit: Function, loading: boolean] => {
 }
 
 export const useCourse = () => {
-    const { data, refetch } = useQuery(GET_COURSE);
-
+    const { data, refetch } = useQuery(GET_COURSE, {
+        skip: true
+    });
     return { data, refetch }
 }

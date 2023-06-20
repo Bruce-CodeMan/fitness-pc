@@ -14,12 +14,19 @@ import EditCourse from "./components/EditCourse"
 const Course = () => {
     const actionRef = useRef<ActionType>();
     const { data, refetch } = useCourses();
+    const [ curId, setCurId ] = useState('')
     const [ showInfo, setShowInfo ] = useState(false);
-    const onClickAddHandler = () => {
+    const onClickAddHandler = (id?: string) => {
+        if(id) {
+            setCurId(id)
+        } else {
+            setCurId('')
+        }
         setShowInfo(true)
     }
 
     const closeAndRefetchHandler = () => {
+        
         setShowInfo(false);
         actionRef.current?.reload()
     }
@@ -29,13 +36,15 @@ const Course = () => {
             <ProTable<ICourse>
                 rowKey="id"
                 actionRef={actionRef}
-                columns={COLUMNS}
+                columns={COLUMNS({
+                    onEditHandler: onClickAddHandler
+                })}
                 dataSource={data}
                 pagination={{
                     pageSize: DEFAULT_PAGE_SIZE
                 }}
                 toolBarRender={()=> [
-                    <Button type="primary" onClick={onClickAddHandler} key="add" icon={<PlusOutlined />}>新建</Button>
+                    <Button type="primary" onClick={() => onClickAddHandler()} key="add" icon={<PlusOutlined />}>新建</Button>
                 ]}
                 request={async (
                     // 第一个参数 params 查询表单和params参数的结合
@@ -61,7 +70,7 @@ const Course = () => {
                     }
                 }} 
              />
-             <EditCourse open={showInfo} onClose={closeAndRefetchHandler}/>
+             {showInfo &&<EditCourse id={curId} onClose={closeAndRefetchHandler}/>}
         </PageContainer>
     )
 }

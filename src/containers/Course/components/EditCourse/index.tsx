@@ -1,20 +1,31 @@
 import { Drawer, Form, Input, InputNumber, Row, Col, Space, Button } from "antd"
-import { useEditInfo } from "../../../../service/course";
+import { useCourse, useEditInfo } from "../../../../service/course";
+import { useEffect } from "react";
 
 const { TextArea } = Input
 interface IProps {
     id?: string;
     onClose: () => void;
-    open: boolean;
 }
 
 const EditCourse = ({
     id,
     onClose,
-    open
 }: IProps) => {
     const [ form ] = Form.useForm();
     const [ handleEdit ] = useEditInfo();
+
+    const { refetch } = useCourse();
+    useEffect(() => {
+        if(id) {
+            refetch({
+                id
+            }).then((res) => {
+                form.setFieldsValue(res.data.getCourseInfo.data)
+            })
+        }
+    }, [id])
+
     const onSubmitHandler = async () => {
         const values = await form.validateFields();
         if(values) {
@@ -26,7 +37,7 @@ const EditCourse = ({
         <Drawer 
             title={id?"编辑课程":"新建课程"}
             width={720}
-            open={open} 
+            open 
             onClose={onClose}
             extra={(
                 <Space>

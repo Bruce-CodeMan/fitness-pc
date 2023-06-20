@@ -4,7 +4,15 @@ import { Button } from "antd";
 // Custom Imports
 import { ICourse } from "../../utils/types";
 
-export const COLUMNS: ProColumns<ICourse, 'text'>[] = [
+interface IProps {
+    onEditHandler: (id: string) => void;
+}
+
+export const COLUMNS: ({
+    onEditHandler
+}: IProps) =>ProColumns<ICourse, 'text'>[] = ({
+    onEditHandler
+}) =>[
     {
         title: '课程标题',
         dataIndex: 'name',
@@ -26,10 +34,15 @@ export const COLUMNS: ProColumns<ICourse, 'text'>[] = [
         title: '操作',
         valueType: 'option',
         dataIndex: 'id',
-        render: (text) => {
-            return (
-                <Button type="link">编辑{text}</Button>
-            )
-        }
+        align: 'center',
+        render: (text, entity) => [ 
+            <Button 
+                type="link" 
+                key="edit" 
+                onClick={() => onEditHandler(entity.id)}
+            >
+                编辑
+            </Button>
+        ]
     }
 ]
