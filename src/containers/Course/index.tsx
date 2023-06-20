@@ -25,7 +25,7 @@ const Course = () => {
         setShowInfo(true)
     }
 
-    const closeAndRefetchHandler = (isReload: boolean) => {
+    const closeAndRefetchHandler = (isReload?: boolean) => {
         
         setShowInfo(false);
         if(isReload) {
@@ -73,7 +73,7 @@ const Course = () => {
                     }
                 }} 
              />
-             {showInfo &&<EditCourse id={curId} onClose={closeAndRefetchHandler}/>}
+             {showInfo &&<EditCourse id={curId} onClose={() =>closeAndRefetchHandler}/>}
         </PageContainer>
     )
 }

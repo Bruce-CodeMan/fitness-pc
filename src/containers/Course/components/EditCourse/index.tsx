@@ -13,7 +13,7 @@ const EditCourse = ({
     onClose,
 }: IProps) => {
     const [ form ] = Form.useForm();
-    const [ handleEdit ] = useEditInfo();
+    const [ handleEdit, editLoading ] = useEditInfo();
 
     const { getCourse, loading } = useCourse();
     useEffect(() => {
@@ -21,6 +21,8 @@ const EditCourse = ({
             if(id) {
                 const res = await getCourse(id)
                 form.setFieldsValue(res)
+            } else {
+                form.resetFields()
             }
         }
         init();
@@ -37,12 +39,13 @@ const EditCourse = ({
         <Drawer 
             title={id?"编辑课程":"新建课程"}
             width={720}
+            forceRender
             open 
             onClose={() => onClose()}
             extra={(
                 <Space>
                     <Button onClick={() => onClose() }>取消</Button>
-                    <Button onClick={onSubmitHandler} type="primary">提交</Button>
+                    <Button loading={editLoading} onClick={onSubmitHandler} type="primary">提交</Button>
                 </Space>
             )}
         >
