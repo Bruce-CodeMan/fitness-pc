@@ -27,6 +27,7 @@ const Course = () => {
     return (
         <PageContainer header={{ title: "当前门店下开设的课程" }}>
             <ProTable<ICourse>
+                rowKey="id"
                 actionRef={actionRef}
                 columns={COLUMNS}
                 dataSource={data}
