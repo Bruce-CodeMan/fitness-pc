@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@apollo/client";
 // Custom Imports
 import { DEFAULT_PAGE_SIZE } from "../utils/constant";
 import { TBaseCourse, TCoursesQuery } from "../utils/types";
-import { COMMIT_COURSE, GET_COURSES } from "../graphql/course";
+import { COMMIT_COURSE, GET_COURSE, GET_COURSES } from "../graphql/course";
 import { message } from "antd";
 
 export const useCourses = (
@@ -66,4 +66,10 @@ export const useEditInfo = ():[handleEdit: Function, loading: boolean] => {
         message.error(res.data.commitCourseInfo.message)
     }
     return [handleEdit, loading]
+}
+
+export const useCourse = () => {
+    const { data, refetch } = useQuery(GET_COURSE);
+
+    return { data, refetch }
 }
