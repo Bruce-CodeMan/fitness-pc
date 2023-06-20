@@ -1,4 +1,4 @@
-import { Drawer, Form, Input, InputNumber, Row, Col, Space, Button } from "antd"
+import { Drawer, Form, Input, InputNumber, Row, Col, Space, Button, Spin } from "antd"
 import { useCourse, useEditInfo } from "../../../../service/course";
 import { useEffect } from "react";
 
@@ -15,16 +15,12 @@ const EditCourse = ({
     const [ form ] = Form.useForm();
     const [ handleEdit ] = useEditInfo();
 
-    const { getCourse } = useCourse();
+    const { getCourse, loading } = useCourse();
     useEffect(() => {
         const init = async () => {
             if(id) {
-                const res = await getCourse({
-                    variables: {
-                        id
-                    }
-                });
-                form.setFieldsValue(res.data.getCourseInfo.data)
+                const res = await getCourse(id)
+                form.setFieldsValue(res)
             }
         }
         init();
@@ -50,6 +46,7 @@ const EditCourse = ({
                 </Space>
             )}
         >
+            <Spin spinning={loading}>
             <Form form={form}>
                 <Form.Item label="课程名称" name="name" rules={[{ required: true }]}>
                     <Input />
@@ -90,6 +87,7 @@ const EditCourse = ({
                     <TextArea rows={5} showCount maxLength={200}/>
                 </Form.Item>
             </Form>
+            </Spin>
         </Drawer>
     )
 }

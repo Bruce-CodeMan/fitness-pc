@@ -69,6 +69,16 @@ export const useEditInfo = ():[handleEdit: Function, loading: boolean] => {
 }
 
 export const useCourse = () => {
-    const [getCourse, { data, loading }] = useLazyQuery(GET_COURSE)
-    return { data, getCourse, loading }
+    const [get, { loading }] = useLazyQuery(GET_COURSE);
+
+    const getCourse = async (id: string) => {
+        const res = await get({
+            variables: {
+                id
+            }
+        })
+        return res.data.getCourseInfo.data
+    }
+
+    return { getCourse, loading }
 }
