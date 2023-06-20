@@ -29,3 +29,24 @@ mutation commitCourseInfo($params: CourseInput!, $id: String) {
     }
 }
 `
+
+export const GET_COURSE = gql`
+query getCourseInfo($id: String!) {
+    getCourseInfo(id: $id) {
+        code
+        message
+        data{
+            id
+            name
+            desc
+            group
+            baseAbility
+            limitNumber
+            duration
+            reserveInfo
+            refundInfo
+            otherInfo
+        }
+    }
+}
+`
