@@ -3,15 +3,17 @@
  * 
  */
 
-import { Drawer, Tabs, Row, Col, Button } from "antd";
+import { Drawer, Tabs, Row, Col, Button, Space } from "antd";
 import { EditableProTable } from "@ant-design/pro-components";
 import { RedoOutlined, ChromeOutlined } from "@ant-design/icons";
+import { useState, useEffect, useMemo } from "react";
+import _ from 'lodash';
 
 // Custom Imports
-import { DAYS, IDay } from "./constants";
-import { useState, useEffect } from "react";
+import { DAYS, IDay, IWeekCourse } from "./constants";
 import { getColumns } from "./constants";
 import styles from "./index.module.less";
+import { IOrderTime } from "../../../../utils/types";
 import { useCourse } from "../../../../service/course";
 
 interface IProps {
@@ -25,14 +27,21 @@ const OrderTime = ({
 }: IProps) => {
 
     const [ currentDay, setCurrentDay ] = useState<IDay>(DAYS[0]);
-    const [ reducibleTime, setReducibleTime ] = useState();
+    const [ reducibleTime, setReducibleTime ] = useState<IWeekCourse[]>([]);
     const { getCourse, loading } = useCourse();
+
+    const orderTime = useMemo(
+        () => reducibleTime.find((item) => item.week === currentDay.key)?.orderTime as IOrderTime[],
+        [reducibleTime]
+    )
+
+    console.log(currentDay, orderTime);
 
     useEffect(() => {
         const init = async () => {
             if(id) {
                 const res = await getCourse(id);
-                setReducibleTime(res.reducibleTime);
+                setReducibleTime(res.reducibleTime || []);
             }
         }
         init();
@@ -60,7 +69,17 @@ const OrderTime = ({
                 items={DAYS}
                 onChange={onTabChangeHandler}
             />
-            <EditableProTable 
+            <EditableProTable<IOrderTime> 
+                headerTitle={(
+                    <Space>
+                        选择
+                        <span className={ styles.name }>
+                            {currentDay.label}
+                        </span>
+                        的课开放预约的时间
+                    </Space>
+                )}
+                value={orderTime}
                 loading={loading}
                 rowKey="key"
                 recordCreatorProps={{
@@ -71,6 +90,17 @@ const OrderTime = ({
                     })
                 }}
                 columns={getColumns(onDeleteHandler)}
+                editable={{
+                    onSave: async (rowKey, d) => {
+                        if(orderTime?.findIndex((item) => item.key === rowKey) > -1) {
+                            const newData = orderTime?.map((item) => (item.key === rowKey? _.omit(d, 'index'): {...item}))
+                            console.log('newData, ', newData);
+                            return;
+                        }
+                        const newData = [...orderTime, _.omit(d, 'index')]
+                        console.log('newData_01, ', newData)
+                    }
+                }}
             />
             <Row gutter={20} className={styles.buttons}>
                 <Col span={12}>
