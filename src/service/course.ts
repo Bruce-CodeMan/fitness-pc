@@ -48,7 +48,7 @@ export const useCourses = (
     }
 }
 
-export const useEditInfo = ():[handleEdit: Function, loading: boolean] => {
+export const useEditCourseInfo = ():[handleEdit: Function, loading: boolean] => {
     const [ edit, { loading } ] = useMutation(COMMIT_COURSE)
 
     const handleEdit = async(id: number, params: TBaseCourse, callback: (isReload: boolean) => void) => {

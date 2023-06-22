@@ -1,5 +1,5 @@
 import { Drawer, Form, Input, InputNumber, Row, Col, Space, Button, Spin } from "antd"
-import { useCourse, useEditInfo } from "../../../../service/course";
+import { useCourse, useEditCourseInfo } from "../../../../service/course";
 import { useEffect } from "react";
 
 const { TextArea } = Input
@@ -13,7 +13,7 @@ const EditCourse = ({
     onClose,
 }: IProps) => {
     const [ form ] = Form.useForm();
-    const [ handleEdit, editLoading ] = useEditInfo();
+    const [ handleEdit, editLoading ] = useEditCourseInfo();
 
     const { getCourse, loading } = useCourse();
     useEffect(() => {
