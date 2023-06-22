@@ -9,9 +9,10 @@ import { RedoOutlined, ChromeOutlined } from "@ant-design/icons";
 
 // Custom Imports
 import { DAYS, IDay } from "./constants";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getColumns } from "./constants";
 import styles from "./index.module.less";
+import { useCourse } from "../../../../service/course";
 
 interface IProps {
     id: string;
@@ -24,6 +25,17 @@ const OrderTime = ({
 }: IProps) => {
 
     const [ currentDay, setCurrentDay ] = useState<IDay>(DAYS[0]);
+
+    const { getCourse, loading } = useCourse();
+
+    useEffect(() => {
+        const init = async () => {
+            if(id) {
+                const res = await getCourse(id);
+
+            }
+        }
+    })
 
     const onTabChangeHandler = (key: string) => {
         const current = DAYS.find(item => item.key === key) as IDay;

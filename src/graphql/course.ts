@@ -46,6 +46,14 @@ query getCourseInfo($id: String!) {
             reserveInfo
             refundInfo
             otherInfo
+            reducibleTime {
+                week
+                orderTime {
+                    startTime
+                    endTime
+                    key
+                }
+            }
         }
     }
 }
