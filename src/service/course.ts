@@ -83,17 +83,12 @@ export const useCourse = () => {
     return { getCourse, loading }
 }
 
-export const useCourseInfo = () => {
-    const [get, { loading }] = useLazyQuery(GET_COURSE);
+export const useCourseInfo = (id: string) => {
+    const { data, loading } = useQuery(GET_COURSE, {
+        variables: {
+            id
+        }
+    });
 
-    const getCourse = async (id: string) => {
-        const res = await get({
-            variables: {
-                id
-            }
-        })
-        return res.data.getCourseInfo.data
-    }
-
-    return { getCourse, loading }
+    return { data: data.getCourseInfo.data, loading }
 }

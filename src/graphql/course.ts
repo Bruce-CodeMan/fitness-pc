@@ -22,7 +22,7 @@ query getCourses($page: PageInput!, $name: String) {
 `
 
 export const COMMIT_COURSE = gql`
-mutation commitCourseInfo($params: CourseInput!, $id: String) {
+mutation commitCourseInfo($params: ParticalCourseInput!, $id: String) {
     commitCourseInfo(params: $params, id: $id) {
         code
         message

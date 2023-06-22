@@ -14,7 +14,7 @@ import { DAYS, IDay, IWeekCourse } from "./constants";
 import { getColumns } from "./constants";
 import styles from "./index.module.less";
 import { IOrderTime } from "../../../../utils/types";
-import { useCourse } from "../../../../service/course";
+import { useCourse, useEditCourseInfo } from "../../../../service/course";
 
 interface IProps {
     id: string;
@@ -29,6 +29,7 @@ const OrderTime = ({
     const [ currentDay, setCurrentDay ] = useState<IDay>(DAYS[0]);
     const [ reducibleTime, setReducibleTime ] = useState<IWeekCourse[]>([]);
     const { getCourse, loading } = useCourse();
+    const [ edit, editLoading ] = useEditCourseInfo();
 
     const orderTime = useMemo(
         () => reducibleTime.find((item) => item.week === currentDay.key)?.orderTime as IOrderTime[],
@@ -56,6 +57,25 @@ const OrderTime = ({
 
     }
 
+    const onSaveHandler = (ot: IOrderTime[]) => {
+        const rt = [...reducibleTime]
+        const index = reducibleTime.findIndex(item => item.week === currentDay.key)
+        if(index > -1) {
+            rt[index] = {
+                week: currentDay.key,
+                orderTime:ot
+            }
+        }else{
+            rt.push({
+                week: currentDay.key,
+                orderTime: ot
+            })
+        }
+        edit(id, {
+            reducibleTime: rt
+        })
+    }
+
     return (
         <Drawer
             title="编辑预约时间"
@@ -80,7 +100,7 @@ const OrderTime = ({
                     </Space>
                 )}
                 value={orderTime}
-                loading={loading}
+                loading={loading || editLoading}
                 rowKey="key"
                 recordCreatorProps={{
                     record: (index: number) => ({
@@ -92,13 +112,12 @@ const OrderTime = ({
                 columns={getColumns(onDeleteHandler)}
                 editable={{
                     onSave: async (rowKey, d) => {
+                        let newData = [];
                         if(orderTime?.findIndex((item) => item.key === rowKey) > -1) {
-                            const newData = orderTime?.map((item) => (item.key === rowKey? _.omit(d, 'index'): {...item}))
-                            console.log('newData, ', newData);
-                            return;
+                            newData = orderTime?.map((item) => (item.key === rowKey? _.omit(d, 'index'): {...item}))
                         }
-                        const newData = [...orderTime, _.omit(d, 'index')]
-                        console.log('newData_01, ', newData)
+                        newData = [...orderTime, _.omit(d, 'index')]
+                        onSaveHandler(newData)
                     }
                 }}
             />
