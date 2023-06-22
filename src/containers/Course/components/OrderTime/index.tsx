@@ -25,17 +25,18 @@ const OrderTime = ({
 }: IProps) => {
 
     const [ currentDay, setCurrentDay ] = useState<IDay>(DAYS[0]);
-
+    const [ reducibleTime, setReducibleTime ] = useState();
     const { getCourse, loading } = useCourse();
 
     useEffect(() => {
         const init = async () => {
             if(id) {
                 const res = await getCourse(id);
-
+                setReducibleTime(res.reducibleTime);
             }
         }
-    })
+        init();
+    }, [id]);
 
     const onTabChangeHandler = (key: string) => {
         const current = DAYS.find(item => item.key === key) as IDay;
@@ -60,6 +61,7 @@ const OrderTime = ({
                 onChange={onTabChangeHandler}
             />
             <EditableProTable 
+                loading={loading}
                 rowKey="key"
                 recordCreatorProps={{
                     record: (index: number) => ({
