@@ -6,15 +6,15 @@
 import { Drawer, Tabs, Row, Col, Button, Space } from "antd";
 import { EditableProTable } from "@ant-design/pro-components";
 import { RedoOutlined, ChromeOutlined } from "@ant-design/icons";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import _ from 'lodash';
 
 // Custom Imports
-import { DAYS, IDay } from "./constants";
+import { DAYS, IDay, getMaxKey, isWorkDay } from "./constants";
 import { getColumns } from "./constants";
 import styles from "./index.module.less";
 import { IOrderTime } from "../../../../utils/types";
-import { useCourseInfo, useEditCourseInfo } from "../../../../service/course";
+import { useOrderTime } from "./hooks";
 
 interface IProps {
     id: string;
@@ -27,45 +27,20 @@ const OrderTime = ({
 }: IProps) => {
 
     const [ currentDay, setCurrentDay ] = useState<IDay>(DAYS[0]);
-    const { data, loading, refetch } = useCourseInfo(id);
-    const [ edit, editLoading ] = useEditCourseInfo();
-
-    const orderTime = useMemo(
-        () => (data?.reducibleTime || []).find((item) => item.week 
-        === currentDay.key)?.orderTime as IOrderTime[],
-        [data]
-    )
 
     const onTabChangeHandler = (key: string) => {
         const current = DAYS.find(item => item.key === key) as IDay;
         setCurrentDay(current);
     }
 
-    
-
-    const onSaveHandler = (ot: IOrderTime[]) => {
-        const rt = [...(data?.reducibleTime || [])]
-        const index = rt.findIndex((item) => item.week === currentDay.key)
-        if(index > -1) {
-            rt[index] = {
-                week: currentDay.key,
-                orderTime:ot
-            }
-        }else{
-            rt.push({
-                week: currentDay.key,
-                orderTime: ot
-            })
-        }
-        edit(id, {
-            reducibleTime: rt
-        }, () => refetch())
-    }
-
-    const onDeleteHandler = (key: number) => {
-        const newData = orderTime.filter((item) => item.key !== key);
-        onSaveHandler(newData);
-    }
+    const {
+        orderTime,
+        loading,
+        onDeleteHandler,
+        onSaveHandler,
+        allWeekDaySyncHandler,
+        allWorkDaySyncHandler,
+    } = useOrderTime(id, currentDay.key)
 
     return (
         <Drawer
@@ -91,11 +66,11 @@ const OrderTime = ({
                     </Space>
                 )}
                 value={orderTime}
-                loading={loading || editLoading}
+                loading={loading}
                 rowKey="key"
                 recordCreatorProps={{
-                    record: (index: number) => ({
-                        key: index + 1,
+                    record: () => ({
+                        key: getMaxKey(orderTime) + 1,
                         startTime: '12:00:00',
                         endTime: '12:00:00'
                     })
@@ -118,6 +93,8 @@ const OrderTime = ({
                         icon={<RedoOutlined />}
                         style={{ width: '100%' }}
                         type="primary"
+                        onClick={allWorkDaySyncHandler}
+                        disabled={!isWorkDay(currentDay.key)}
                     >全工作日同步</Button>
                 </Col>
                 <Col span={12}>
@@ -126,6 +103,7 @@ const OrderTime = ({
                         style={{ width: '100%' }}
                         type="primary"
                         danger
+                        onClick={allWeekDaySyncHandler}
                     >全周同步</Button>
                 </Col>
             </Row>

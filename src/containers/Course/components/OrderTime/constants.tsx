@@ -1,7 +1,7 @@
 import { ProColumns } from "@ant-design/pro-components";
 import { Space, Popconfirm } from "antd";
 
-import { TWEEK } from "../../../../utils/types";
+import { IOrderTime, TWEEK } from "../../../../utils/types";
 
 export interface IDay {
     key: TWEEK;
@@ -93,3 +93,12 @@ export const getColumns = (onDeleteHandler: Function): ProColumns[] => [
     }
 ]
 
+export const isWorkDay = (day: string) => ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'].includes(day);
+
+export const getMaxKey = (orderTime: IOrderTime[]) => {
+    const keys = orderTime?.map(item => item.key) || [];
+    if (keys.length === 0) {
+        return 0;
+    }
+    return Math.max(...keys);
+}
