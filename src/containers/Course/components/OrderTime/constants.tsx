@@ -1,7 +1,7 @@
 import { ProColumns } from "@ant-design/pro-components";
 import { Space, Popconfirm } from "antd";
 
-type TWEEK = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
+import { TWEEK } from "../../../../utils/types";
 
 export interface IDay {
     key: TWEEK;
@@ -39,11 +39,7 @@ export const DAYS: IDay[] = [
     }
 ]
 
-interface IOrderTime {
-    startTime: string;
-    endTime: string;
-    key: number;
-}
+
 
 
 export const getColumns = (onDeleteHandler: Function): ProColumns[] => [
@@ -97,7 +93,3 @@ export const getColumns = (onDeleteHandler: Function): ProColumns[] => [
     }
 ]
 
-export interface IWeekCourse {
-    week: TWEEK;
-    orderTime: IOrderTime[];
-}

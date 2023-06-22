@@ -6,15 +6,15 @@
 import { Drawer, Tabs, Row, Col, Button, Space } from "antd";
 import { EditableProTable } from "@ant-design/pro-components";
 import { RedoOutlined, ChromeOutlined } from "@ant-design/icons";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import _ from 'lodash';
 
 // Custom Imports
-import { DAYS, IDay, IWeekCourse } from "./constants";
+import { DAYS, IDay } from "./constants";
 import { getColumns } from "./constants";
 import styles from "./index.module.less";
 import { IOrderTime } from "../../../../utils/types";
-import { useCourse, useEditCourseInfo } from "../../../../service/course";
+import { useCourseInfo, useEditCourseInfo } from "../../../../service/course";
 
 interface IProps {
     id: string;
@@ -27,39 +27,25 @@ const OrderTime = ({
 }: IProps) => {
 
     const [ currentDay, setCurrentDay ] = useState<IDay>(DAYS[0]);
-    const [ reducibleTime, setReducibleTime ] = useState<IWeekCourse[]>([]);
-    const { getCourse, loading } = useCourse();
+    const { data, loading, refetch } = useCourseInfo(id);
     const [ edit, editLoading ] = useEditCourseInfo();
 
     const orderTime = useMemo(
-        () => reducibleTime.find((item) => item.week === currentDay.key)?.orderTime as IOrderTime[],
-        [reducibleTime]
+        () => (data?.reducibleTime || []).find((item) => item.week 
+        === currentDay.key)?.orderTime as IOrderTime[],
+        [data]
     )
-
-    console.log(currentDay, orderTime);
-
-    useEffect(() => {
-        const init = async () => {
-            if(id) {
-                const res = await getCourse(id);
-                setReducibleTime(res.reducibleTime || []);
-            }
-        }
-        init();
-    }, [id]);
 
     const onTabChangeHandler = (key: string) => {
         const current = DAYS.find(item => item.key === key) as IDay;
         setCurrentDay(current);
     }
 
-    const onDeleteHandler = () => {
-
-    }
+    
 
     const onSaveHandler = (ot: IOrderTime[]) => {
-        const rt = [...reducibleTime]
-        const index = reducibleTime.findIndex(item => item.week === currentDay.key)
+        const rt = [...(data?.reducibleTime || [])]
+        const index = rt.findIndex((item) => item.week === currentDay.key)
         if(index > -1) {
             rt[index] = {
                 week: currentDay.key,
@@ -73,7 +59,12 @@ const OrderTime = ({
         }
         edit(id, {
             reducibleTime: rt
-        })
+        }, () => refetch())
+    }
+
+    const onDeleteHandler = (key: number) => {
+        const newData = orderTime.filter((item) => item.key !== key);
+        onSaveHandler(newData);
     }
 
     return (

@@ -2,7 +2,7 @@ import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 
 // Custom Imports
 import { DEFAULT_PAGE_SIZE } from "../utils/constant";
-import { TBaseCourse, TCoursesQuery } from "../utils/types";
+import { TBaseCourse, TCourseQuery, TCoursesQuery } from "../utils/types";
 import { COMMIT_COURSE, GET_COURSE, GET_COURSES } from "../graphql/course";
 import { message } from "antd";
 
@@ -84,11 +84,11 @@ export const useCourse = () => {
 }
 
 export const useCourseInfo = (id: string) => {
-    const { data, loading } = useQuery(GET_COURSE, {
+    const { data, loading, refetch } = useQuery<TCourseQuery>(GET_COURSE, {
         variables: {
             id
         }
     });
 
-    return { data: data.getCourseInfo.data, loading }
+    return { data: data?.getCourseInfo.data, loading, refetch }
 }

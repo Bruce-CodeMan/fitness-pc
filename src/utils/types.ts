@@ -74,9 +74,11 @@ export interface ICourse {
     reserveInfo?: string;
     refundInfo?: string;
     otherInfo?: string;
+    reducibleTime: IWeekCourse[];
 }
 
 export type TCoursesQuery = { [key: string]: { __typename?: 'Query', data: ICourse[], page: IPage } }
+export type TCourseQuery = { [key: string]: { __typename?: 'Query', data: ICourse, page: IPage } }
 
 export type TBaseCourse = Partial<ICourse>
 
@@ -84,4 +86,12 @@ export interface IOrderTime {
     startTime: string;
     endTime: string;
     key: number;
+}
+
+export type TWEEK = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
+
+
+export interface IWeekCourse {
+    week: TWEEK;
+    orderTime: IOrderTime[];
 }
