@@ -5,7 +5,7 @@
  */
 import { useEffect, useMemo } from "react"
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
-import { getRouteByKey, routes } from "../routes/menus";
+import { ROUTE_CONFIG, ROUTE_KEY, getRouteByKey, routes } from "../routes/menus";
 
 export const useTitle = (title: string) => {
     useEffect(() => {
@@ -49,4 +49,16 @@ export const useMatchedRoute = () => {
     const r = useLocation();
     const route = useMemo(() => routes.find((item) => matchPath(item.path, r.pathname)), [r.pathname]);
     return route;
+}
+
+/**
+ * 判断当前路由是否是org
+ */
+export const useIsOrgRoute = () => {
+    const curRoute = useMatchedRoute();
+
+    if(curRoute?.path === ROUTE_CONFIG[ROUTE_KEY.ORGANIZATION].path) {
+        return true;
+    }
+    return false;
 }

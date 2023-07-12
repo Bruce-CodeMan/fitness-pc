@@ -11,15 +11,9 @@ import { LOCAL_CURRENT_ORG } from "../../utils/constant";
 import { useEffect } from "react";
 import { useGoTo } from "../../hooks";
 import { ROUTE_KEY } from "../../routes/menus";
+import { currentOrg } from "../../utils";
 
-const currentOrg = () => {
-    try {
-        const res = JSON.parse(localStorage.getItem(LOCAL_CURRENT_ORG) || '');
-        return res
-    } catch {
-        return undefined;
-    }
-}
+
 
 const OrganizationSelect = () => {
     const { setStore } = useUserContext();

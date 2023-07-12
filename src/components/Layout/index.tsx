@@ -70,7 +70,9 @@ const Layout = () => {
             onMenuHeaderClick={() => nav('/')}
         >
             
-                { outlet }
+            <div key={store.currentOrg}>
+            { outlet }
+            </div>
         </ProLayout>
     );
 };
