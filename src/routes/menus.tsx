@@ -14,7 +14,7 @@ interface IRoute {
 
 export const ROUTE_KEY = {
     HOME: 'home',
-    NOTFOUND: '404',
+    NOTFOUND: 'p404',
     MY: 'my',
     ORGANIZATION: 'organization',
     NO_ORG: 'noOrg',
@@ -26,12 +26,7 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
         path: "home",
         name: "首页",
         icon: <HomeOutlined />
-    },
-    [ROUTE_KEY.NOTFOUND]:{
-        path: "*",
-        hideInMenu: true,
-        name: '404'
-    },
+    },   
     [ROUTE_KEY.MY]: {
         path: "my",
         name: "个人中心",
@@ -52,7 +47,12 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
         path: "course",
         name: "课程管理",
         icon: <PicRightOutlined />
-    }
+    },
+    [ROUTE_KEY.NOTFOUND]:{
+        path: "*",
+        hideInMenu: true,
+        name: '404'
+    },
 }
 
 export const routes = Object.keys(ROUTE_CONFIG).map((key) => ({...ROUTE_CONFIG[key], key}));

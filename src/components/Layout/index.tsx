@@ -9,7 +9,7 @@ import { useUserContext } from '../../hooks/userHooks';
 import logo from "../../assets/react.svg";
 import { routes, ROUTE_KEY } from '../../routes/menus';
 import { AUTH_TOKEN } from '../../utils/constant';
-import { useGoTo } from '../../hooks';
+import { useGoTo, useIsOrgRoute } from '../../hooks';
 import { Space, Tooltip } from 'antd';
 import { LogoutOutlined, ShopOutlined } from '@ant-design/icons';
 import OrganizationSelect from '../OrganizationSelect';
@@ -26,6 +26,7 @@ const menuItemRender = (
 const Layout = () => {
     const outlet = useOutlet();
     const { store } = useUserContext();
+    const isOrg = useIsOrgRoute();
     const nav = useNavigate();
     const { go } = useGoTo();
 
@@ -61,7 +62,7 @@ const Layout = () => {
                 routes: routes
             }}
             actionsRender={() => [
-                <OrganizationSelect />,
+                !isOrg && <OrganizationSelect />,
                 <Tooltip title="门店管理">
                     <ShopOutlined onClick={goToOrganization}/>
                 </Tooltip>

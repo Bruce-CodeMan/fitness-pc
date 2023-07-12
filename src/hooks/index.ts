@@ -47,7 +47,8 @@ export const useGoTo = () => {
  */
 export const useMatchedRoute = () => {
     const r = useLocation();
-    const route = useMemo(() => routes.find((item) => matchPath(item.path, r.pathname)), [r.pathname]);
+    const route = useMemo(() => routes.find((item) => matchPath(`/${item.path}`, r.pathname)), [r.pathname]);
+    console.log("route: ", route)
     return route;
 }
 
