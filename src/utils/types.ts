@@ -95,3 +95,12 @@ export interface IWeekCourse {
     week: TWEEK;
     orderTime: IOrderTime[];
 }
+
+export interface ICard {
+    id: string;
+    name: string;
+    type: string;
+    time: number;
+    validatyDay: number;
+}
+

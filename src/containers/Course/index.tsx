@@ -10,6 +10,7 @@ import { useCourses } from "../../service/course";
 import { DEFAULT_PAGE_SIZE } from "../../utils/constant";
 import EditCourse from "./components/EditCourse"
 import OrderTime from "./components/OrderTime";
+import ConsumeCard from "./components/ConsumeCard";
 
 
 const Course = () => {
@@ -18,6 +19,8 @@ const Course = () => {
     const [ curId, setCurId ] = useState('')
     const [ showInfo, setShowInfo ] = useState(false);
     const [ showOrderTime, setShowOrderTime ] = useState(false);
+    const [ showCard, setShowCard ] = useState(false);
+
     const onClickAddHandler = (id?: string) => {
         if(id) {
             setCurId(id)
@@ -40,6 +43,11 @@ const Course = () => {
         setShowOrderTime(true);
     }
 
+    const onCardHandler = (id: string) => {
+        setCurId(id);
+        setShowCard(true);
+    }
+
     return (
         <PageContainer header={{ title: "当前门店下开设的课程" }}>
             <ProTable<ICourse>
@@ -48,6 +56,7 @@ const Course = () => {
                 columns={COLUMNS({
                     onEditHandler: onClickAddHandler,
                     onOrderTimeHandler,
+                    onCardeHandler: onCardHandler
                 })}
                 dataSource={data}
                 pagination={{
@@ -82,6 +91,7 @@ const Course = () => {
              />
              {showInfo && <EditCourse id={curId} onClose={closeAndRefetchHandler}/>}
              {showOrderTime && <OrderTime id={curId} onClose={() => setShowOrderTime(false)}/> }
+             {showCard && <ConsumeCard id={curId} onClose={() => setShowCard(false)}/> }
         </PageContainer>
     )
 }
