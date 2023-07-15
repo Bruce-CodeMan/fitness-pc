@@ -2,7 +2,7 @@ import { Drawer } from "antd";
 import { EditableProTable } from '@ant-design/pro-components';
 import { ICard } from "../../../../utils/types";
 import { getColumns } from "./constants";
-import { useCards, useEditCardInfo } from "../../../../service/card";
+import { useCards, useDeleteCard, useEditCardInfo } from "../../../../service/card";
 
 interface IProps {
     id: string;
@@ -16,9 +16,10 @@ const ConsumeCard = ({
 
     const { data, loading, refetch } = useCards(id)
     const [ edit, editLoading ] = useEditCardInfo();
+    const [ del, delLoading ] = useDeleteCard();
 
     const onDeleteHandler = (key: string) => {
-        
+        del(key, refetch);
     }
 
     const onSaveHandler = (d: ICard) => {
@@ -37,16 +38,20 @@ const ConsumeCard = ({
             open
             onClose={()=>onClose()}
         >   
-            <EditableProTable 
+            <EditableProTable<ICard>
                 headerTitle="请管理该课程的消费卡"
                 rowKey="id"
-                loading={loading || editLoading}
+                loading={loading || editLoading || delLoading}
                 columns={getColumns(onDeleteHandler)}
                 editable={{
-                    onSave: async(rowKey, d) => {
+                    onSave: async (rowKey, d) => {
                         onSaveHandler(d)
+                    },
+                    onDelete: async (key) => {
+                        onDeleteHandler(key as string);
                     }
                 }}
+                value={data}
                 recordCreatorProps={{
                     record: ()=>({
                         id: "new",
